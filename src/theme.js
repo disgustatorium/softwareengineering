@@ -28,6 +28,9 @@ const theme = createTheme({
     h1: {
       fontSize: 35,
     },
+    h6: {
+      fontSize: '1.5em',
+    },
   },
    components: {
     MuiButton: {
@@ -36,9 +39,6 @@ const theme = createTheme({
           textTransform: 'none',
           letterSpacing: '0.02362em',
         },
-      },
-      defaultProps: {
-        size: 'large', 
       },
     },
   },

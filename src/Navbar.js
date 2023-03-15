@@ -7,10 +7,10 @@ function Navbar() {
     <ThemeProvider theme={theme}>
     <AppBar position="static" color="background" >
       <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}> FitTrack </Typography>
-        <Button color="inherit">Home</Button>
-        <Button color="inherit">About Us</Button>
-        <Button variant="contained" color="secondary">Log In</Button>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}> FitTrack </Typography>
+        <Button size="small" color="inherit"> Home </Button>
+        <Button size="small" color="inherit"> About Us </Button>
+        <Button size="small" variant="contained" color="secondary"> Log In </Button>
       </Toolbar>
     </AppBar>   
     </ThemeProvider>
