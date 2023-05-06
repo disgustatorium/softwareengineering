@@ -1,46 +1,38 @@
-const fs = require("fs");
-const express = require("express");
+const express = require('express')
+const bodyParser = require('body-parser')
+const mysql = require('mysql')
 
-// DB
-const sqlite3 = require("sqlite3");
-db = new sqlite3.Database("database.db");
+const app = express()
+const port = 3001;
 
-// Routes
-app = express();
+const pool  = mysql.createPool({
+    connectionLimit : 10,
+    host            : 'localhost',
+    user            : 'root',
+    database        : 'fitquest'
+})
 
-app.get("/", (req, res) => {
-	res.send("Hi");
-});
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
-app.get("/example1", (req, res) => {
-	var body = "";
-	db.each("SELECT rowid AS id, info FROM example", (err, row) => {
-		body += row.id+": "+row.info+"<br>";
-	}, () => {
-		res.send(body);
-	});
-});
 
-app.get("/example2", (req, res) => {
-	const statement = db.prepare("INSERT INTO example VALUES (?)");
-	for (let i = 0; i < 3; i++) {
-		statement.run("Example "+i);
-	}
-	statement.finalize();
-	res.send("Inserted");
-	console.log("Inserted");
-});
+app.get('', (req, res) => {
+    pool.getConnection((err, connection) => {
+        if(err) throw err
+        console.log('connected as id ' + connection.threadId)
+        connection.query('SELECT * from users', (err, rows) => {
+            connection.release()
 
-app.get("/example3", (req, res) => {
-	db.run("DELETE FROM example");
-	res.send("Emptied");
-});
+            if (!err) {
+                res.send(rows)
+            } else {
+                console.log(err)
+            }
 
-// 404 route
-app.use((req, res, next) => {
-	res.status(404).send("Not found");
-});
+            console.log(rows)
+        })
+    })
+})
 
-app.listen(3001, function() {
-	console.log("listening on port 3001");
-});
+
+app.listen(port, () => console.log(`Listening on port ${port}`))
