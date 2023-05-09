@@ -83,8 +83,168 @@ app.post('/login', (req, res) => {
     })
 });
 
-app.post('/', verifyToken, (req, res) => {
-   res.status(200).send("Welcome "+req.user+"!");
+app.post('/getFoods', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        if (data.length == 0) {
+            connection.query("SELECT * FROM foods", (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        } else {
+            connection.query("SELECT * FROM foods WHERE ?", data, (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        }
+    })
+});
+
+app.post('/getFoodRecords', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        if (data.length == 0) {
+            connection.query("SELECT * FROM foodRecords", (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        } else {
+            connection.query("SELECT * FROM foodRecords WHERE ?", data, (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        }
+    })
+});
+
+app.post('/getWeightRecords', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        if (data.length == 0) {
+            connection.query("SELECT * FROM weightRecords", (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        } else {
+            connection.query("SELECT * FROM weightRecords WHERE ?", data, (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        }
+    })
+});
+
+app.post('/getExerciseRecords', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        if (data.length == 0) {
+            connection.query("SELECT * FROM exerciseRecords", (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        } else {
+            connection.query("SELECT * FROM exerciseRecords WHERE ?", data, (err, rows) => {
+                if (!err) {
+                    res.send([{"success":true}].concat(rows));
+                } else {
+                    console.log(err);
+                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                }
+            })
+        }
+    })
+});
+
+
+app.post('/recordFood', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("INSERT INTO foodRecords SET ?", data, (err, rows) => {
+            if (!err) {
+                res.send({"success":true});
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+
+app.post('/recordWeight', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("INSERT INTO weightRecords SET ?", data, (err, rows) => {
+            if (!err) {
+                res.send({"success":true});
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+
+app.post('/recordExercise', verifyToken, (req, res) => {
+    let data = req.body;
+    delete data.token;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("INSERT INTO exerciseRecords SET ?", data, (err, rows) => {
+            if (!err) {
+                res.send({"success":true});
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
 });
 
 
