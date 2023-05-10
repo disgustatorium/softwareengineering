@@ -47,8 +47,7 @@ app.post('/register', (req, res) => {
             connection.release();
             
             if (!err) {
-            	let token = jwt.sign({username: data.username}, tokenKey, {expiresIn: "2h"});
-                res.send({"success":true, "token":token});
+                res.send({"success":true});
             } else {
                 console.log(err);
                 res.send({"success":false, "reason":"A database error has occurred."});
@@ -67,7 +66,7 @@ app.post('/login', (req, res) => {
             if (!err) {
             	if (rows.length == 1) {
             	    if (rows[0].password == data.password) {
-            	        let token = jwt.sign({username: data.username}, tokenKey, {expiresIn: "2h"});
+            	        let token = jwt.sign({id: data.userID, username: data.username}, tokenKey, {expiresIn: "2h"});
             	    	res.send({"success":true, "token":token});
             	    } else { 
             	    	res.send({"success":false, "reason":"Invalid username and password combination."}) 
@@ -92,7 +91,7 @@ app.post('/getFoods', verifyToken, (req, res) => {
         if (data.length == 0) {
             connection.query("SELECT * FROM foods", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
                     res.send([{"success":false, "reason":"A database error has occurred."}]);
@@ -101,7 +100,7 @@ app.post('/getFoods', verifyToken, (req, res) => {
         } else {
             connection.query("SELECT * FROM foods WHERE ?", data, (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
                     res.send([{"success":false, "reason":"A database error has occurred."}]);
@@ -113,26 +112,25 @@ app.post('/getFoods', verifyToken, (req, res) => {
 
 app.post('/getFoodRecords', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        if (data.length == 0) {
+        if (!data.ids) {
             connection.query("SELECT * FROM foodRecords", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
                     res.send([{"success":false, "reason":"A database error has occurred."}]);
                 }
             })
         } else {
-            connection.query("SELECT * FROM foodRecords WHERE ?", data, (err, rows) => {
+            connection.query("SELECT * FROM foodRecords WHERE weightRecordId IN (" + connection.escape(data.ids) +  ")", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
-                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                    res.send({"success":false, "reason":"A database error has occurred."});
                 }
             })
         }
@@ -141,26 +139,25 @@ app.post('/getFoodRecords', verifyToken, (req, res) => {
 
 app.post('/getWeightRecords', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        if (data.length == 0) {
+        if (!data.ids) {
             connection.query("SELECT * FROM weightRecords", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
                     res.send([{"success":false, "reason":"A database error has occurred."}]);
                 }
             })
         } else {
-            connection.query("SELECT * FROM weightRecords WHERE ?", data, (err, rows) => {
+            connection.query("SELECT * FROM weightRecords WHERE weightRecordId IN (" + connection.escape(data.ids) +  ")", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
-                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                    res.send({"success":false, "reason":"A database error has occurred."});
                 }
             })
         }
@@ -169,26 +166,25 @@ app.post('/getWeightRecords', verifyToken, (req, res) => {
 
 app.post('/getExerciseRecords', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        if (data.length == 0) {
+        if (!data.ids) {
             connection.query("SELECT * FROM exerciseRecords", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
                     res.send([{"success":false, "reason":"A database error has occurred."}]);
                 }
             })
         } else {
-            connection.query("SELECT * FROM exerciseRecords WHERE ?", data, (err, rows) => {
+            connection.query("SELECT * FROM exerciseRecords WHERE weightRecordId IN (" + connection.escape(data.ids) +  ")", (err, rows) => {
                 if (!err) {
-                    res.send([{"success":true}].concat(rows));
+                    res.send({"success":true,"data":rows});
                 } else {
                     console.log(err);
-                    res.send([{"success":false, "reason":"A database error has occurred."}]);
+                    res.send({"success":false, "reason":"A database error has occurred."});
                 }
             })
         }
@@ -198,11 +194,10 @@ app.post('/getExerciseRecords', verifyToken, (req, res) => {
 
 app.post('/recordFood', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("INSERT INTO foodRecords SET ?", data, (err, rows) => {
+        connection.query("INSERT INTO foodRecords SET ?", data.toSet, (err, rows) => {
             if (!err) {
                 res.send({"success":true});
             } else {
@@ -215,11 +210,10 @@ app.post('/recordFood', verifyToken, (req, res) => {
 
 app.post('/recordWeight', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("INSERT INTO weightRecords SET ?", data, (err, rows) => {
+        connection.query("INSERT INTO weightRecords SET ?", data.toSet, (err, rows) => {
             if (!err) {
                 res.send({"success":true});
             } else {
@@ -232,13 +226,34 @@ app.post('/recordWeight', verifyToken, (req, res) => {
 
 app.post('/recordExercise', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("INSERT INTO exerciseRecords SET ?", data, (err, rows) => {
+        connection.query("INSERT INTO exerciseRecords SET ?", data.toSet, (err, rows) => {
             if (!err) {
                 res.send({"success":true});
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+
+app.post('/getGoals', verifyToken, (req, res) => {
+    let data = req.body;
+    
+    // TODO
+});
+
+app.post('/test', (req, res) => {
+    let data = req.body;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT * FROM weightRecords WHERE weightRecordId IN (" + connection.escape(data.data) +  ")", (err, rows) => {
+            if (!err) {
+                res.send({"success":true,"data":rows});
             } else {
                 console.log(err);
                 res.send({"success":false, "reason":"A database error has occurred."});
