@@ -6,13 +6,10 @@ import {
 } from "react-router-dom";
 import './index.css';
 import App from './App';
-
-
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
 import Root from "./routes/root";
 import Tracking from "./routes/tracking";
 import Landing from "./routes/landing";
@@ -22,6 +19,7 @@ import Groups from "./routes/groups";
 import AppSettings from "./routes/appSettings";
 import ErrorPage from './error-page';
 import AddGoal from './routes/addGoal';
+import AddGroup from './routes/addGroup';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/goals/addGoal",
         element: <AddGoal />
+      },
+      {
+        path:"/groups/addGroup",
+        element: <AddGroup />
       }
     ],
   },
