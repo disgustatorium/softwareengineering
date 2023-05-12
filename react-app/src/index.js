@@ -22,6 +22,7 @@ import AddGoal from './routes/addGoal';
 import AddGroup from './routes/addGroup';
 import Login from './routes/login';
 import SignUp from './routes/signUp';
+import UserSettings from './routes/userSettings';
 
 const router = createBrowserRouter([
   {
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "/signUp",
         element: <SignUp />
+      },
+      {
+        path: "/dashboard/userSettings",
+        element: <UserSettings />
       }
     ],
   },
