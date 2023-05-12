@@ -20,6 +20,8 @@ import AppSettings from "./routes/appSettings";
 import ErrorPage from './error-page';
 import AddGoal from './routes/addGoal';
 import AddGroup from './routes/addGroup';
+import Login from './routes/login';
+import SignUp from './routes/signUp';
 
 const router = createBrowserRouter([
   {
@@ -56,8 +58,16 @@ const router = createBrowserRouter([
         element: <AddGoal />
       },
       {
-        path:"/groups/addGroup",
+        path: "/groups/addGroup",
         element: <AddGroup />
+      },
+      {
+        path:"/login",
+        element: <Login />
+      },
+      {
+        path: "/signUp",
+        element: <SignUp />
       }
     ],
   },
