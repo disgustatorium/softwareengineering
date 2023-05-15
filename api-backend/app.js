@@ -61,7 +61,7 @@ app.post('/login', (req, res) => {
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT userID, password FROM users WHERE ?", {"username":data.username}, (err, rows) => {
+        connection.query("SELECT * FROM users WHERE ?", {"username":data.username}, (err, rows) => {
             if (!err) {
             	if (rows.length == 1) {
             	    if (rows[0].password == data.password) {
@@ -136,7 +136,7 @@ app.post('/getGoals', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT goals FROM users WHERE ?", {"userID":req.userID}, (err, userRows) => {
-	    connection.query("SELECT * FROM goals WHERE goalID IN (" + userRows[0].goals.slice(1,-1) +  ")", (err, goalRows) => {
+	    connection.query("SELECT * FROM goals WHERE goalID IN (" + userRows[0].goals +  ")", (err, goalRows) => {
 		if (!err) {
 	            res.send({"success":true,"data":goalRows});
 		} else {
@@ -150,7 +150,6 @@ app.post('/getGoals', verifyToken, (req, res) => {
 
 app.post('/getFoods', verifyToken, (req, res) => {
     let data = req.body;
-    delete data.token;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
@@ -159,7 +158,7 @@ app.post('/getFoods', verifyToken, (req, res) => {
                 res.send({"success":true,"data":rows});
             } else {
                 console.log(err);
-                res.send([{"success":false, "reason":"A database error has occurred."}]);
+                res.send({"success":false, "reason":"A database error has occurred."});
             }
         })
     })
@@ -175,7 +174,7 @@ app.post('/getFoodRecords', verifyToken, (req, res) => {
                 res.send({"success":true,"data":rows});
             } else {
                 console.log(err);
-                res.send([{"success":false, "reason":"A database error has occurred."}]);
+                res.send({"success":false, "reason":"A database error has occurred."});
             }
         })
     })
@@ -186,12 +185,12 @@ app.post('/getWeightRecords', verifyToken, (req, res) => {
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM weightRecords WHERE ownerID = "+connection.escape(req.userID), (err, rows) => {
+        connection.query("SELECT * FROM weightRecords WHERE ownerID = " + connection.escape(req.userID), (err, rows) => {
             if (!err) {
                 res.send({"success":true,"data":rows});
             } else {
                 console.log(err);
-                res.send([{"success":false, "reason":"A database error has occurred."}]);
+                res.send({"success":false, "reason":"A database error has occurred."});
             }
         })
     })
@@ -207,13 +206,36 @@ app.post('/getExerciseRecords', verifyToken, (req, res) => {
                 res.send({"success":true,"data":rows});
             } else {
                 console.log(err);
-                res.send([{"success":false, "reason":"A database error has occurred."}]);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+app.post('/registerGoal', verifyToken, (req, res) => {
+    let data = req.body; // groupRows.insertId
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("INSERT INTO goals SET ?", data.data, (err, goalReturn) => {
+            if (!err) {
+            	console.log(goalReturn.insertId);
+                connection.query("UPDATE users SET goals = CONCAT(goals,\',"+goalReturn.insertId+"\') WHERE userID = "+req.userID, (err, userReturn) => {
+                    if (!err) {
+                    	res.send({"success":true});
+                    } else {
+                        console.log(err);
+                    	res.send({"success":false, "reason":"A database error has occurred."});
+                    }
+                })
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
             }
         })
     })
 });
 
-app.post('/test', verifyToken, (req, res) => {
+app.post('/test', (req, res) => {
     let data = req.body;
     
     //
