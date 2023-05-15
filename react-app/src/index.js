@@ -5,7 +5,6 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import App from './App';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
