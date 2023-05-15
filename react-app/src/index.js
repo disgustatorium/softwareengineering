@@ -22,6 +22,9 @@ import Groups from "./routes/groups";
 import AppSettings from "./routes/appSettings";
 import ErrorPage from './error-page';
 import AddGoal from './routes/addGoal';
+import AddExercise from './routes/tracking/addExercise';
+import AddFood from './routes/tracking/addFood';
+import AddWeight from './routes/tracking/addWeight';
 
 const router = createBrowserRouter([
   {
@@ -56,6 +59,18 @@ const router = createBrowserRouter([
       {
         path: "/goals/addGoal",
         element: <AddGoal />
+      },
+      {
+        path: "/tracking/addExercise",
+        element: <AddExercise />
+      },
+      {
+        path: "/tracking/addFood",
+        element: <AddFood />
+      },
+      {
+        path: "/tracking/addWeight",
+        element: <AddWeight />
       }
     ],
   },
