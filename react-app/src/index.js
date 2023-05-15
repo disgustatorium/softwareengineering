@@ -5,14 +5,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import './index.css';
-import App from './App';
-
-
 import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
 import Root from "./routes/root";
 import Tracking from "./routes/tracking";
 import Landing from "./routes/landing";
@@ -25,6 +21,11 @@ import AddGoal from './routes/addGoal';
 import AddExercise from './routes/tracking/addExercise';
 import AddFood from './routes/tracking/addFood';
 import AddWeight from './routes/tracking/addWeight';
+import AddGroup from './routes/addGroup';
+import Login from './routes/login';
+import SignUp from './routes/signUp';
+import UserSettings from './routes/userSettings';
+
 
 const router = createBrowserRouter([
   {
@@ -71,6 +72,22 @@ const router = createBrowserRouter([
       {
         path: "/tracking/addWeight",
         element: <AddWeight />
+      },
+      {
+        path: "/groups/addGroup",
+        element: <AddGroup />
+      },
+      {
+        path:"/login",
+        element: <Login />
+      },
+      {
+        path: "/signUp",
+        element: <SignUp />
+      },
+      {
+        path: "/dashboard/userSettings",
+        element: <UserSettings />
       }
     ],
   },
