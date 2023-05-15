@@ -39,7 +39,7 @@ function GoalsListItem({ name, target, daysLeft }) {
           <Grid xs={6}>
             <Typography variant='h6'>
               days left
-              </Typography>
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
