@@ -9,6 +9,8 @@ const app = express()
 const port = 3001;
 const tokenKey = "TotallyLegitKey";
 
+app.use(cors());
+
 const pool  = mysql.createPool({
     connectionLimit : 10,
     host            : 'localhost',
