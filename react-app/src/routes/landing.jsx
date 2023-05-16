@@ -3,6 +3,7 @@ import '../Landing.css';
 import theme from '../theme';
 import Navbar from '../Navbar';
 import Wave from '../Wave';
+import { Link } from "react-router-dom";
 
 
 import { Typography, Button, ThemeProvider, Box } from '@mui/material';
@@ -18,7 +19,7 @@ function Landing() {
           <Typography color="primary.contrastText"> Change the way you view health.
           </Typography>
           <Box sx={{ marginLeft: '2em', marginTop: "20px" }}>
-            <Button sx={{ width: '250px', height: '60px', borderRadius: '30px' }} size="large" variant="contained" color="primary">Sign up</Button>
+            <Button sx={{ width: '250px', height: '60px', borderRadius: '30px' }} size="large" variant="contained" color="primary" component={Link} to="/signup">Sign up</Button>
           </Box>
         </Box>
       </div>

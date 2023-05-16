@@ -28,6 +28,9 @@ const theme = createTheme({
     h1: {
       fontSize: 35,
     },
+    h5: {
+      fontSize: '1em',
+    },
     h6: {
       fontSize: '1.5em',
     },
