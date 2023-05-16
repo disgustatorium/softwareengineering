@@ -3,10 +3,13 @@ const bodyParser = require('body-parser')
 const mysql = require('mysql')
 const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
 
 const app = express()
 const port = 3001;
 const tokenKey = "TotallyLegitKey";
+
+app.use(cors());
 
 const pool  = mysql.createPool({
     connectionLimit : 10,
@@ -15,8 +18,14 @@ const pool  = mysql.createPool({
     database        : 'fitquest'
 });
 
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200
+}
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(cors(corsOptions));
 
 const verifyToken = (req, res, next) => {
     const token = req.body.token;
@@ -212,7 +221,7 @@ app.post('/getExerciseRecords', verifyToken, (req, res) => {
     })
 });
 app.post('/registerGoal', verifyToken, (req, res) => {
-    let data = req.body; // groupRows.insertId
+    let data = req.body;
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
