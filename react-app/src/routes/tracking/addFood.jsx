@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import CustomFoodButton from '../../components/CustomFoodButton';
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
 
 const mealCategories = [{label:"Breakfast"},{label:"Lunch"},{label:"Dinner"},{label:"Snack"}]
 
@@ -48,7 +48,7 @@ export default function AddFood() {
             onChange={(newValue) => setValue(newValue)}
         />
         <Button variant="contained" component={Link} to="addFood" endIcon={<RestaurantIcon />}> Log Food</Button>
-        <CustomFoodButton></CustomFoodButton>
+        <Button variant="contained" component={Link} to="customFood" endIcon={<RamenDiningIcon />}>CUSTOM FOOD</Button>
         </Grid>
         </Item>
       
