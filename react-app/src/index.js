@@ -27,6 +27,7 @@ import SignUp from './routes/signUp';
 import UserSettings from './routes/userSettings';
 import AddCustomFood from './routes/tracking/customFood';
 import SignUpSuccess from './routes/signUpSuccess';
+import LoginSuccess from './routes/loginSuccess';
 import CustomFood from './routes/tracking/customFood';
 
 const router = createBrowserRouter([
@@ -86,6 +87,10 @@ const router = createBrowserRouter([
       {
         path:"/login",
         element: <Login />
+      },
+      {
+        path:"/loginSuccess",
+        element: <LoginSuccess />
       },
       {
         path: "/signUp",
