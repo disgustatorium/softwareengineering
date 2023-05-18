@@ -8,32 +8,39 @@ import { Typography, Button, ThemeProvider, Box } from '@mui/material';
 
 export default function SignUp() {
 
-  const registerUser = async (formData) => {
+  // post request to /register endpoint in order to register user 
+  const registerUser = async (formData, onSuccess, onError) => {
     
     const backendUrl = 'http://localhost:3001';
 
     try {
       const response = await fetch(`${backendUrl}/register`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ data: formData }),
+        body: JSON.stringify(formData),
       });
 
       const data = await response.json();
+      console.log(data);
+
 
       if (data.success) {
         console.log('Registration successful');
+        onSuccess(); 
       } else {
         console.log(`Registration failed: ${data.reason}`);
+        onError(data.reason);
       }
     } catch (error) {
       console.log('Error occurred during registration:', error);
+      onError('Error occurred during registration');
     }
+    
   };
 
-  // registration data 
+  // state to update and hold registration data 
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -46,17 +53,18 @@ export default function SignUp() {
     dob: '',
   });
 
-  // changing units 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
+  // changing registration data on change 
+  const handleChange = (event) => { 
+    const { id, value } = event.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [id]: value,
     }));
   };
 
-  // submitting other fields
+  // submitting registration data
   const handleSubmit = (event) => {
+    event.preventDefault(); 
 
     // check for missing fields
     const missingFields = [];
@@ -64,7 +72,7 @@ export default function SignUp() {
     if (!event.target.password.value) missingFields.push("Password");
     if (!event.target.email.value) missingFields.push("Email");
     if (!event.target.firstName.value) missingFields.push("First Name");
-    if (!event.target.lastName.value) missingFields.push("Email");
+    if (!event.target.lastName.value) missingFields.push("Last Name");
     if (!event.target.gender.value) missingFields.push("Gender");
     if (!event.target.height.value) missingFields.push("Height");
     if (!event.target.units.value) missingFields.push("Units");
@@ -76,27 +84,20 @@ export default function SignUp() {
       alert(`Please fill in the following fields: ${missingFieldsString}`);
       return; 
     }
-      
-    const updatedData = {
-      username: event.target.username.value,
-      password: event.target.password.value,
-      email: event.target.email.value,
-      firstName: event.target.firstName.value,
-      lastName: event.target.lastName.value,
-      gender: event.target.gender.value,
-      height: event.target.height.value,
-      units: event.target.units.value,
-      dob: event.target.dob.value
+
+    const onSuccess = () => {
+      //work out how to redirect to success page 
     };
 
-    setFormData((prevData) => ({
-      ...prevData,
-      ...updatedData,
-    }));
+    const onError = (reason) => {
+      alert(`Registration failed: ${reason}`);
+    };
 
-    registerUser(formData);
+    // register user
+    registerUser(formData, onSuccess, onError);
 
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,54 +121,50 @@ export default function SignUp() {
       <Typography variant="h1" color="primary.main"> Welcome to FitTrack! </Typography>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'}}>
-      <Typography variant="h5" color="primary.main"> Measurement Units: </Typography>
-      </div>
-
       <form onSubmit={handleSubmit}>
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> Username: </Typography>
         </div>
         <label htmlFor="username"></label>
-        <input type="text" id="username" />
+        <input type="text" id="username" onChange={handleChange} />
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main">Password:</Typography>
         </div>
         <label htmlFor="password"></label>
-        <input type="password" id="password" />
+        <input type="password" id="password" autoComplete="new-password" onChange={handleChange} />
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> Email: </Typography>
         </div>
         <label htmlFor="email"></label>
-        <input type="email" id="email" />
+        <input type="email" id="email" onChange={handleChange} />
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> First Name: </Typography>
         </div>
         <label htmlFor="firstName"></label>
-        <input type="text" id="firstName" />
+        <input type="text" id="firstName" onChange={handleChange} />
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> Last Name: </Typography>
         </div>
         <label htmlFor="lastName"></label>
-        <input type="text" id="lastName" />
+        <input type="text" id="lastName" onChange={handleChange} />
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> Sex: </Typography>
         </div>
         <label htmlFor="gender"></label>
-        <input type="radio" id="male" name="gender" value="male" />
+        <input type="radio" id="gender" name="gender" value="male" onChange={handleChange} />
         <label htmlFor="male">Male</label>
-        <input type="radio" id="female" name="gender" value="female" />
+        <input type="radio" id="gender" name="gender" value="female" onChange={handleChange} />
         <label htmlFor="female">Female</label>
         <br />
 
@@ -175,16 +172,16 @@ export default function SignUp() {
         <Typography variant="h5" color="primary.main"> Birthday: </Typography>
         </div>
         <label htmlFor="dob"></label>
-        <input type="date" id="dob" name="dob" />
+        <input type="date" id="dob" name="dob" onChange={handleChange} />
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> Units: </Typography>
         </div>
         <label htmlFor="units"></label>
-        <input type="radio" id="metric" name="units" value="metric" onChange={handleChange} />
+        <input type="radio" id="units" name="units" value="metric" onChange={handleChange} />
         <label htmlFor="metric">Metric</label>
-        <input type="radio" id="imperial" name="units" value="imperial" onChange={handleChange} />
+        <input type="radio" id="units" name="units" value="imperial" onChange={handleChange} />
         <label htmlFor="imperial">Imperial</label>
         <br /> 
 
@@ -193,7 +190,7 @@ export default function SignUp() {
         </div>
         {formData.units === "metric" && (
           <div>
-            <label htmlFor="height">Height (in cm):</label>
+            
             <input
               type="number"
               id="height"
@@ -203,12 +200,14 @@ export default function SignUp() {
               pattern="[0-9]*"
               onChange={handleChange}
             />
+            <label htmlFor="height"></label>
+            <br />
           </div>
         )}
 
         {formData.units === "imperial" && (
           <div>
-            <label htmlFor="height">Height (in inches):</label>
+            
             <input
               type="number"
               id="height"
@@ -218,13 +217,20 @@ export default function SignUp() {
               pattern="[0-9]*"
               onChange={handleChange}
             />
+            <label htmlFor="height"></label>
           </div>
-      )}
+        )}
+
+        {formData.units !== "metric" && formData.units !== "imperial" && (
+          <div>
+            <label htmlFor="height"></label>
+            <input type="number" id="height" readOnly style={{ backgroundColor: '#f0f0f0', color: '#888888' }} onChange={handleChange} />
+          </div>
+        )}
 
         <button type="submit">Sign Up</button>
       </form>
     </div>
     </ThemeProvider>
-
   );
 }
