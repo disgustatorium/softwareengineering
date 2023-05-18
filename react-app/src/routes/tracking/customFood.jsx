@@ -10,8 +10,7 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import CustomFoodButton from '../../components/CustomFoodButton';
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
 
 const mealCategories = [{label:"Breakfast"},{label:"Lunch"},{label:"Dinner"},{label:"Snack"}]
 const customFood = [{label:"Custom Food"}]
@@ -23,17 +22,15 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function AddCustomFood() {
+export default function CustomFood() {
   const [value, setValue] = useState(dayjs());
     return (
       
-    
-
     <Container sx={
         { padding: "30px" }
       } maxWidth="sm">
         
-        <Typography variant="h2" component="h1" gutterBottom>Log food</Typography>
+        <Typography variant="h2" component="h1" gutterBottom>Log custom food</Typography>
             <Item>
             <Grid container direction="column" rowGap={2} maxWidth="sm">
             
@@ -43,13 +40,14 @@ export default function AddCustomFood() {
             options={mealCategories}
             renderInput={(params) => <TextField {...params} label="Meal type" />}
         />
+        <TextField id="customFoodName" label="Food name" variant="outlined" />
+        <TextField id="customFoodCalories" label="Calories" variant="outlined" />
         <DatePicker
             label="Date"
             value={value}
             onChange={(newValue) => setValue(newValue)}
         />
-        <Button variant="contained" component={Link} to="addFood" endIcon={<RestaurantIcon />}> Log Food</Button>
-        <CustomFoodButton></CustomFoodButton>
+        <Button variant="contained" component={Link} to="customFood" endIcon={<RamenDiningIcon />}>LOG CUSTOM FOOD</Button>
         </Grid>
         </Item>
       

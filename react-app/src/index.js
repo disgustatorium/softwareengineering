@@ -27,6 +27,7 @@ import SignUp from './routes/signUp';
 import UserSettings from './routes/userSettings';
 import AddCustomFood from './routes/tracking/customFood';
 import SignUpSuccess from './routes/signUpSuccess';
+import CustomFood from './routes/tracking/customFood';
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
       {
         path: "/tracking/addWeight",
         element: <AddWeight />
+      },
+      {
+        path: "/tracking/addFood/customFood",
+        element: <CustomFood />
       },
       {
         path: "/groups/addGroup",

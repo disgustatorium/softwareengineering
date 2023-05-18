@@ -30,7 +30,7 @@ export default function AddExercise() {
         { padding: "30px" }
       } maxWidth="sm">
        
-        <Typography variant="h2" component="h1" gutterBottom>Add exercise</Typography>
+        <Typography variant="h2" component="h1" gutterBottom>Log exercise</Typography>
             <Item>
             <Grid container direction="column" rowGap={2} maxWidth="sm">
         <Autocomplete
@@ -45,7 +45,7 @@ export default function AddExercise() {
             onChange={(newValue) => setValue(newValue)}
         />
         <TextField id="exerciseDuration" value={value} type="time" label="Duration"></TextField>
-        <Button variant="contained" component={Link} to="addExercise" endIcon={<FitnessCenterIcon />}> Add Exercise</Button>
+        <Button variant="contained" component={Link} to="addExercise" endIcon={<FitnessCenterIcon />}> Log Exercise</Button>
         </Grid>
         </Item>
       
