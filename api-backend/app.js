@@ -9,7 +9,14 @@ const app = express()
 const port = 3001;
 const tokenKey = "TotallyLegitKey";
 
-app.use(cors());
+const corsOptions = {
+    origin: '*', 
+    optionsSuccessStatus: 200,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    exposedHeaders: ['Authorization']
+};
+
+app.use(cors(corsOptions));
 
 const pool  = mysql.createPool({
     connectionLimit : 10,
@@ -18,14 +25,8 @@ const pool  = mysql.createPool({
     database        : 'fitquest'
 });
 
-const corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200
-}
-
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(cors(corsOptions));
 
 const verifyToken = (req, res, next) => {
     const token = req.body.token;
@@ -42,16 +43,16 @@ const verifyToken = (req, res, next) => {
     return next();
 };
 
-app.post('/register', (req, res) => {
-    let data = req.body;
-    data.data.password = crypto.createHash('md5').update(data.password).digest('hex');
+app.post('/register', bodyParser.json(), (req, res) => {
+    let { username, password, email, firstName, lastName, gender, units, height, dob } = req.body;
+    password = crypto.createHash('md5').update(password).digest('hex');
     
     // TODO: Check if registration username is unique
     // TODO: Check if registration email is unique
-    
+
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("INSERT INTO users SET ?", data.data, (err, rows) => {
+        connection.query("INSERT INTO users SET ?", req.body, (err, rows) => {
             connection.release();
             
             if (!err) {
@@ -62,6 +63,7 @@ app.post('/register', (req, res) => {
             }
         })
     })
+    
 });
 
 app.post('/login', (req, res) => {
@@ -246,6 +248,7 @@ app.post('/registerGoal', verifyToken, (req, res) => {
 
 app.post('/test', (req, res) => {
     let data = req.body;
+    console.log(data);
     
     //
 });
