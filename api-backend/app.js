@@ -44,15 +44,15 @@ const verifyToken = (req, res, next) => {
 };
 
 app.post('/register', bodyParser.json(), (req, res) => {
-    let { username, password, email, firstName, lastName, gender, units, height, dob } = req.body;
-    password = crypto.createHash('md5').update(password).digest('hex');
+    let data = req.body;
+    data.password = crypto.createHash('md5').update(password).digest('hex');
     
     // TODO: Check if registration username is unique
     // TODO: Check if registration email is unique
 
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("INSERT INTO users SET ?", req.body, (err, rows) => {
+        connection.query("INSERT INTO users SET ?", data, (err, rows) => {
             connection.release();
             
             if (!err) {
@@ -222,6 +222,7 @@ app.post('/getExerciseRecords', verifyToken, (req, res) => {
         })
     })
 });
+
 app.post('/registerGoal', verifyToken, (req, res) => {
     let data = req.body;
     

@@ -110,11 +110,9 @@ export default function SignUp() {
         borderRadius: '10px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
-        height: '50vh',
-        marginTop: '50vh',
-        transform: 'translateY(-50%)',
+        marginTop: '10vh',
+        textAlign: 'center',
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'}}>
@@ -162,10 +160,12 @@ export default function SignUp() {
         <Typography variant="h5" color="primary.main"> Sex: </Typography>
         </div>
         <label htmlFor="gender"></label>
-        <input type="radio" id="gender" name="gender" value="male" onChange={handleChange} />
-        <label htmlFor="male">Male</label>
-        <input type="radio" id="gender" name="gender" value="female" onChange={handleChange} />
-        <label htmlFor="female">Female</label>
+        <input type="radio" id="gender" name="gender" value="M" onChange={handleChange} />
+        <label htmlFor="M">Male</label>
+        <input type="radio" id="gender" name="gender" value="F" onChange={handleChange} />
+        <label htmlFor="F">Female</label>
+        <input type="radio" id="gender" name="gender" value="X" onChange={handleChange} />
+        <label htmlFor="X">Other</label>
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
@@ -176,19 +176,19 @@ export default function SignUp() {
         <br />
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
-        <Typography variant="h5" color="primary.main"> Units: </Typography>
+        <Typography variant="h5" color="primary.main"> Preferred Units: </Typography>
         </div>
         <label htmlFor="units"></label>
-        <input type="radio" id="units" name="units" value="metric" onChange={handleChange} />
+        <input type="radio" id="units" name="units" value="M" onChange={handleChange} />
         <label htmlFor="metric">Metric</label>
-        <input type="radio" id="units" name="units" value="imperial" onChange={handleChange} />
+        <input type="radio" id="units" name="units" value="I" onChange={handleChange} />
         <label htmlFor="imperial">Imperial</label>
         <br /> 
 
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
         <Typography variant="h5" color="primary.main"> Height: </Typography>
         </div>
-        {formData.units === "metric" && (
+        {formData.units === "M" && (
           <div>
             
             <input
@@ -200,12 +200,12 @@ export default function SignUp() {
               pattern="[0-9]*"
               onChange={handleChange}
             />
-            <label htmlFor="height"></label>
+            <label htmlFor="height">(cm)</label>
             <br />
           </div>
         )}
 
-        {formData.units === "imperial" && (
+        {formData.units === "I" && (
           <div>
             
             <input
@@ -214,14 +214,15 @@ export default function SignUp() {
               name="height"
               min="0"
               step="1"
+              size="4"
               pattern="[0-9]*"
               onChange={handleChange}
             />
-            <label htmlFor="height"></label>
+            <label htmlFor="height">(inches)</label>
           </div>
         )}
 
-        {formData.units !== "metric" && formData.units !== "imperial" && (
+        {formData.units !== "M" && formData.units !== "I" && (
           <div>
             <label htmlFor="height"></label>
             <input type="number" id="height" readOnly style={{ backgroundColor: '#f0f0f0', color: '#888888' }} onChange={handleChange} />
