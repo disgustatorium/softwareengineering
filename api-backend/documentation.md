@@ -39,16 +39,15 @@ On failure: Status code 500 with a JSON response { "error": "Failed to send emai
 **Description:** Registers a new user in the database. <br>
 
 **Request Payload:** 
-- `formData` Object containing: <br>
-    - `username`<br>
-    - `password`<br>
-    - `email`<br>
-    - `firstName`<br>
-    - `lastName`<br>
-    - `gender`: male, female or other<br>
-    - `units`: units of measurement (metric or imperial)<br>
-    - `height`: stored in metric format server-side, converted client side<br>
-    - `dob`: date of birth<br>
+- `username`<br>
+- `password`<br>
+- `email`<br>
+- `firstName`<br>
+- `lastName`<br>
+- `gender`: male, female or other (use M/F/X)<br>
+- `units`: units of measurement, metric or imperial (use M/I)<br>
+- `height`: stored in metric format server-side, converted client side<br>
+- `dob`: date of birth<br>
     
 **Response:** <br>
 On success: Status code 200 with a JSON response { "success": true } <br>
