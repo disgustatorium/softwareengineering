@@ -9,26 +9,26 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/en-gb';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Root from "./routes/root";
-import Tracking from "./routes/tracking";
+import Root from "./routes/user/root";
+import Tracking from "./routes/user/tracking/tracking";
 import Landing from "./routes/landing";
-import Dashboard from "./routes/dashboard";
-import Goals from "./routes/goals";
-import Groups from "./routes/groups";
-import AppSettings from "./routes/appSettings";
+import Dashboard from "./routes/user/dashboard";
+import Goals from "./routes/user/goals";
+import Groups from "./routes/user/groups";
+import AppSettings from "./routes/user/appSettings";
 import ErrorPage from './error-page';
-import AddGoal from './routes/addGoal';
-import AddExercise from './routes/tracking/addExercise';
-import AddFood from './routes/tracking/addFood';
-import AddWeight from './routes/tracking/addWeight';
-import AddGroup from './routes/addGroup';
+import AddGoal from './routes/user/tracking/addGoal';
+import AddExercise from './routes/user/tracking/addExercise';
+import AddFood from './routes/user/tracking/addFood';
+import AddWeight from './routes/user/tracking/addWeight';
+import AddGroup from './routes/user/tracking/addGroup';
 import Login from './routes/login';
 import SignUp from './routes/signUp';
-import UserSettings from './routes/userSettings';
-import AddCustomFood from './routes/tracking/customFood';
+import UserSettings from './routes/user/userSettings';
+import AddCustomFood from './routes/user/tracking/customFood';
 import SignUpSuccess from './routes/signUpSuccess';
 import LoginSuccess from './routes/loginSuccess';
-import CustomFood from './routes/tracking/customFood';
+import CustomFood from './routes/user/tracking/customFood';
 
 const router = createBrowserRouter([
   { 
@@ -57,60 +57,60 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: "/",
+    path: "/user",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/dashboard",
+        path: "/user/dashboard",
         element: <Dashboard />
       },
       {
-        path: "/goals",
+        path: "/user/goals",
         element: <Goals />
       },
       {
-        path: "/tracking",
+        path: "/user/tracking",
         element: <Tracking />
       },
       {
-        path: "/groups",
+        path: "/user/groups",
         element: <Groups />
       },
       {
-        path: "/appSettings",
+        path: "/user/appSettings",
         element: <AppSettings />
       },
       {
-        path: "/goals/addGoal",
+        path: "/user/goals/addGoal",
         element: <AddGoal />
       },
       {
-        path: "/tracking/addExercise",
+        path: "/user/tracking/addExercise",
         element: <AddExercise />
       },
       {
-        path: "/tracking/addFood",
+        path: "/user/tracking/addFood",
         element: <AddFood />
       },
       {
-        path: "/tracking/addWeight",
+        path: "/user/tracking/addWeight",
         element: <AddWeight />
       },
       {
-        path: "/tracking/addFood/customFood",
+        path: "/user/tracking/addFood/customFood",
         element: <CustomFood />
       },
       {
-        path: "/groups/addGroup",
+        path: "/user/groups/addGroup",
         element: <AddGroup />
       },
       {
-        path: "/dashboard/userSettings",
+        path: "/user/dashboard/userSettings",
         element: <UserSettings />
       },
       {
-        path: "/tracking/customFood",
+        path: "/user/tracking/customFood",
         element: <AddCustomFood />
       },
     ],

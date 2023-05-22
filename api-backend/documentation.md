@@ -1,17 +1,76 @@
-# Documentation 
+# Server-Side Code Docs
 
-## API Endpoints for app.js
+## Dependencies
 
-/register {data:{username, password, email, firstName, lastName, gender, units, height, dob}}
-Registers a user.
-Returns {success:true} if successful, and {success:false, reason} if not.
+**express:** Web framework for Node.js. <br>
+**body-parser:** Node.js body parsing middleware.<br>
+**mysql:** Node.js driver for MySQL.<br>
+**crypto:** Node.js cryptographic functionality.<br>
+**jsonwebtoken:** JSON Web Token (JWT) implementation for Node.js.<br>
+**cors:** Cross-Origin Resource Sharing (CORS) middleware for Express.js.<br>
+**nodemailer:** Node.js module for sending emails.<br>
+**fs:** Node.js file system module.<br>
+**path:** Node.js path module.<br>
+**dotenv:** Loads environment variables from a .env file 
 
-/send-email {to, name, subject, file}
-Sends an email with html as a body defined in emailhtml folder.
-Returns 200 status if successful, and 500 status with a reason if not.
+## Endpoints
 
-/login {username,password}
-Attempts to a log in a user.
+### Route: Send Email
+
+**Route:** POST /send-email <br>
+
+**Description:** Reads an HTML file, replaces a placeholder with a provided value, and sends an email with the modified HTML content.<br>
+
+**Request Payload:** <br>
+- `file`: File name (without the path) of the HTML file to be used. <br>
+- `name`: Name value to be inserted in the HTML file. <br>
+- `to`: Recipient email address.<br>
+- `subject`: Email subject.<br>
+    
+**Response:** <br>
+On success: Status code 200 with a JSON response { "message": "Email sent successfully" }. <br>
+    
+On failure: Status code 500 with a JSON response { "error": "Failed to send email", "reason": "Error message" }.
+
+### Route: User Registration
+
+**Route:** POST /register <br>
+
+**Description:** Registers a new user in the database. <br>
+
+**Request Payload:** 
+- `formData` Object containing: <br>
+    - `username`<br>
+    - `password`<br>
+    - `email`<br>
+    - `firstName`<br>
+    - `lastName`<br>
+    - `gender`: male, female or other<br>
+    - `units`: units of measurement (metric or imperial)<br>
+    - `height`: stored in metric format server-side, converted client side<br>
+    - `dob`: date of birth<br>
+    
+**Response:** <br>
+On success: Status code 200 with a JSON response { "success": true } <br>
+
+On failure: Status code 200 with a JSON response { "success": false, "reason": "Error message" }. <br>
+
+### Route: User Login
+
+**Route:** POST /login <br>
+
+**Description:** Attempts to login a user <br>
+
+**Request Payload:** <br>
+- `username`<br>
+- `password`<br>
+
+**Response:** <br>
+On success: Status code 200 with a JSON response { "success": true, "token": "JWT" }, where "JWT" is the generated JSON Web Token. <br>
+
+On failure: Status code 200 with a JSON response { "success": false, "reason": "Error message" }.
+
+## other (to be finished)
 
 /recordFood {token,data:{dateRecorded, timeRecorded, foodType, quantity}}
 Records a food.

@@ -3,9 +3,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import AddGoalButton from '../components/AddGoalButton';
-import AddGroup from './addGroup';
-import AddGroupButton from '../components/AddGroupButton';
+import AddGoalButton from '../../components/AddGoalButton';
+import AddGroup from './tracking/addGroup';
+import AddGroupButton from '../../components/AddGroupButton';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',

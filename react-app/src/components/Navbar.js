@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Typography, ThemeProvider, AppBar, Toolbar} from '@mui/material';
-import theme from './theme';
+import theme from '../theme';
 import { Link } from "react-router-dom";
 
 
