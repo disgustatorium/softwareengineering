@@ -3,7 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import AddGoalButton from '../components/AddGoalButton';
+import AddGoalButton from '../../components/AddGoalButton';
 import React from "react";
 
 const Item = styled(Paper)(({ theme }) => ({

@@ -1,8 +1,8 @@
 //import logo from './logo.svg';
 import '../Landing.css';
 import theme from '../theme';
-import Navbar from '../Navbar';
-import Wave from '../Wave';
+import Navbar from '../components/Navbar';
+import Wave from '../components/Wave';
 import { Link } from "react-router-dom";
 
 

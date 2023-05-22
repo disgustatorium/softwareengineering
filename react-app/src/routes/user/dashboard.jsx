@@ -11,7 +11,7 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import ProfileCircleButton from "../components/ProfileCircleButton";
+import ProfileCircleButton from "../../components/ProfileCircleButton";
 
 export default function Dashboard() {
     return (

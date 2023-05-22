@@ -4,9 +4,36 @@ import { Link } from "react-router-dom";
 import { useState } from 'react';
 
 import { Typography, Button, ThemeProvider, Box } from '@mui/material';
+import SignUpSuccess from './signUpSuccess';
 
 
 export default function SignUp() {
+
+  // post request to /send-email endpoint in order to email a user
+  const sendEmail = async (to, name, subject, file) => {
+
+    const backendUrl = 'http://localhost:3001';
+    
+    try {
+      const response = await fetch(`${backendUrl}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ to, name, subject, file }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        console.log('Email sent successfully:', data.message);
+      } else {
+        console.error('Error sending email:', data.error);
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+    }
+  };
 
   // post request to /register endpoint in order to register user 
   const registerUser = async (formData, onSuccess, onError) => {
@@ -86,11 +113,21 @@ export default function SignUp() {
     }
 
     const onSuccess = () => {
+
+      // sends email to user confirming signup
+      const to = event.target.email.value;
+      const name = event.target.firstName.value;
+      const subject = "Signup Successful!";
+      const file = "success.html";
+    
+      sendEmail(to, subject, file);
+    
       //work out how to redirect to success page 
     };
 
     const onError = (reason) => {
       alert(`Registration failed: ${reason}`);
+
     };
 
     // register user
