@@ -98,7 +98,7 @@ app.post('/send-email', bodyParser.json(), (req, res) => {
   
 app.post('/register', bodyParser.json(), (req, res) => {
     let data = req.body;
-    //data.password = crypto.createHash('md5').update(password).digest('hex');
+    data.password = crypto.createHash('md5').update(data.password).digest('hex');
     // it stopped working idk why
     
     // TODO: Check if registration username is unique
