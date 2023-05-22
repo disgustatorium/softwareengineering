@@ -1,13 +1,12 @@
 import theme from '../theme';
 import '../Landing.css';
-import { Link } from "react-router-dom";
 import { useState } from 'react';
-
-import { Typography, Button, ThemeProvider, Box } from '@mui/material';
-import SignUpSuccess from './signUpSuccess';
-
+import { Typography, ThemeProvider } from '@mui/material';
+import { useNavigate } from "react-router-dom"
 
 export default function SignUp() {
+
+  const navigate = useNavigate();
 
   // post request to /send-email endpoint in order to email a user
   const sendEmail = async (to, name, subject, file) => {
@@ -113,7 +112,6 @@ export default function SignUp() {
     }
 
     const onSuccess = () => {
-
       // sends email to user confirming signup
       const to = event.target.email.value;
       const name = event.target.firstName.value;
@@ -122,12 +120,12 @@ export default function SignUp() {
     
       sendEmail(to, subject, file);
     
-      //work out how to redirect to success page 
+      // redirects user to sign up successful page 
+      navigate('/signUpSuccess');
     };
 
     const onError = (reason) => {
       alert(`Registration failed: ${reason}`);
-
     };
 
     // register user

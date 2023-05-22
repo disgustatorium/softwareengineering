@@ -2,11 +2,14 @@ import theme from '../theme';
 import '../Landing.css';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom"
 
 import { Typography, Button, ThemeProvider, Box } from '@mui/material';
 
 
 export default function LogIn() {
+
+  const navigate = useNavigate();
 
   // post request to /register endpoint in order to register user 
   const loginUser = async (formData, onSuccess, onError) => {
@@ -72,7 +75,8 @@ export default function LogIn() {
     }
 
     const onSuccess = () => {
-      //work out how to redirect to success page 
+      // redirects user to sign up successful page 
+      navigate('/loginSuccess');
     };
 
     const onError = (reason) => {
