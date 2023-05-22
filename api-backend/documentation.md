@@ -1,4 +1,4 @@
-/register {data:{username, password, email, firstName, lastName, gender, units, height, dob}}
+/register {username, password, email, firstName, lastName, gender, units, height, dob}
 Registers a user.
 Returns {success:true} if successful, and {success:false, reason} if not.
 
@@ -32,6 +32,13 @@ Returns an array of all the user's weight records in the DB as JSON: {success, d
 /getExerciseRecords {token}
 Returns an array of all the user's weight records in the DB as JSON: {success, data}
 
-/recordGoal {category, quantity, dateCreated, endDate}
+/recordGoal {token, data:{category, quantity, dateCreated, endDate}}
 Records a goal and adds it to the users goals.
 
+/createGroup {token, groupName}
+Creates a group with the specified name.
+Returns {success:true} if successful, and {success:false, reason} if not.
+
+/joinGroup {token, groupID}
+Joins a group with the specified ID.
+Returns {success:true} if successful, and {success:false, reason} if not.
