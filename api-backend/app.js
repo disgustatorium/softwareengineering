@@ -4,6 +4,11 @@ const mysql = require('mysql')
 const crypto = require('crypto');
 const jwt = require("jsonwebtoken");
 const cors = require('cors');
+const nodemailer = require('nodemailer');
+const fs = require('fs');
+const path = require('path');
+
+require('dotenv').config(); 
 
 const app = express()
 const port = 3001;
@@ -25,6 +30,15 @@ const pool  = mysql.createPool({
     database        : 'fitquest'
 });
 
+
+const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: 'healthtrackerappuea@gmail.com',
+      pass: process.env.GMAIL_PASSWORD, 
+    },
+  });
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
@@ -43,9 +57,48 @@ const verifyToken = (req, res, next) => {
     return next();
 };
 
+app.post('/send-email', bodyParser.json(), (req, res) => {
+    const data = req.body;
+    
+    const file = data.file;
+    const name = data.name;
+    
+    const folderPath = 'emailhtml';
+    const filePath = path.join(folderPath, file); 
+  
+    fs.readFile(filePath, 'utf8', (err, htmlContent) => {
+        if (err) {
+            console.error('Error reading HTML file:', err);
+            res.status(500).json({ error: 'Failed to read HTML file' });
+            return;
+        }
+
+        // replaces variable with actual name 
+        const modifiedHtmlContent = htmlContent.replace(/{{name}}/g, name);
+
+        const mailOptions = {
+            from: 'healthtrackerappuea@gmail.com',
+            to: data.to,
+            name: data.name,
+            subject: data.subject,
+            html: modifiedHtmlContent,  
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+                res.status(500).json({ error: 'Failed to send email', reason: error.reason });
+            } else {
+                console.log('Email sent:', info.response);
+                res.status(200).json({ message: 'Email sent successfully' });
+            }
+            });
+        });
+  });
+  
 app.post('/register', bodyParser.json(), (req, res) => {
     let data = req.body;
-    data.password = crypto.createHash('md5').update(password).digest('hex');
+    //data.password = crypto.createHash('md5').update(password).digest('hex');
     
     // TODO: Check if registration username is unique
     // TODO: Check if registration email is unique

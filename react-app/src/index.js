@@ -31,15 +31,36 @@ import LoginSuccess from './routes/loginSuccess';
 import CustomFood from './routes/tracking/customFood';
 
 const router = createBrowserRouter([
+  { 
+    path: "/",
+    element: <Landing />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/signUp",
+    element: <SignUp />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path:"/login",
+    element: <Login />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path:"/loginSuccess",
+    element: <LoginSuccess />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/signUpSuccess",
+    element: <SignUpSuccess />,
+    errorElement: <ErrorPage />
+  },
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
-      { 
-        path: "",
-        element: <Landing />
-      },
       {
         path: "/dashboard",
         element: <Dashboard />
@@ -85,22 +106,6 @@ const router = createBrowserRouter([
         element: <AddGroup />
       },
       {
-        path:"/login",
-        element: <Login />
-      },
-      {
-        path:"/loginSuccess",
-        element: <LoginSuccess />
-      },
-      {
-        path: "/signUp",
-        element: <SignUp />
-      },
-      {
-        path: "/signUpSuccess",
-        element: <SignUpSuccess />
-      },
-      {
         path: "/dashboard/userSettings",
         element: <UserSettings />
       },
@@ -109,7 +114,7 @@ const router = createBrowserRouter([
         element: <AddCustomFood />
       },
     ],
-  },
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

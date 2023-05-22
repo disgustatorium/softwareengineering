@@ -1,6 +1,14 @@
+# Documentation 
+
+## API Endpoints for app.js
+
 /register {data:{username, password, email, firstName, lastName, gender, units, height, dob}}
 Registers a user.
 Returns {success:true} if successful, and {success:false, reason} if not.
+
+/send-email {to, name, subject, file}
+Sends an email with html as a body defined in emailhtml folder.
+Returns 200 status if successful, and 500 status with a reason if not.
 
 /login {username,password}
 Attempts to a log in a user.
