@@ -110,6 +110,41 @@ export default function SignUp() {
       alert(`Please fill in the following fields: ${missingFieldsString}`);
       return; 
     }
+    
+    // password validation
+    const password = event.target.password.value;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+    if (!password.match(passwordRegex)) {
+      alert('Password must be at least 8 characters long and contain a number, an uppercase letter, and a lowercase letter.');
+      return;
+    }
+
+    // dob validation
+    const dob = new Date(event.target.dob.value);
+    const minDob = new Date('1900-01-01');
+    const maxDob = new Date('2023-12-31');
+
+    if (dob < minDob || dob > maxDob) {
+      alert('Date of Birth must be between 1900 and 2023.');
+      return;
+    }
+
+    // height validation
+    const units = event.target.units.value;
+    const height = parseFloat(event.target.height.value);
+
+    if (units === 'M') {
+      if (isNaN(height) || height < 0 || height > 300) {
+        alert('Height must be between 0 and 300 centimeters.');
+        return;
+      }
+    } else if (units === 'I') {
+      if (isNaN(height) || height < 0 || height > 120) {
+        alert('Height must be between 0 and 120 inches.');
+        return;
+      }
+    }
 
     const onSuccess = () => {
       // sends email to user confirming signup
