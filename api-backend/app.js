@@ -57,6 +57,7 @@ const verifyToken = (req, res, next) => {
     return next();
 };
 
+
 app.post('/send-email', bodyParser.json(), (req, res) => {
     const data = req.body;
 
