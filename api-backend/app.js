@@ -322,9 +322,8 @@ app.post('/joinGroup', verifyToken, (req, res) => {
         if (err) throw err;
         connection.query("SELECT * FROM groups WHERE ?", {"groupID":data.groupID}, (err, rows) => {
             if (!err) {
-                // TODO: check if user ID is already in the group (include it in below if statement)
                 if (rows.length == 1 && !rows[0].memberIDs.split(",").includes(req.userID) && rows[0].ownerID != req.userID) {
-            	    connection.query("UPDATE groups SET memberIDs = CONCAT(memberIDs,\',"+req.userID+"\') WHERE groupID = "+connection.escape(data.groupID), (err, rows) => {
+            	    connection.query("UPDATE groups SET memberIDs = CONCAT(memberIDs,',"+req.userID+"') WHERE groupID = "+connection.escape(data.groupID), (err, rows) => {
                         if (!err) {
                         	res.send({"success":true});
                         } else {
@@ -335,6 +334,22 @@ app.post('/joinGroup', verifyToken, (req, res) => {
             	} else {
             	    res.send({"success":false, "reason":"No group found, or you are already a member."});
             	}
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+
+app.post('/getGroups', verifyToken, (req, res) => {
+    let data = req.body;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT * FROM `groups` WHERE memberIDs REGEXP '(,"+req.userID+")(?![0123456789])'", (err, rows) => {
+            if (!err) {
+                res.send({"success":true,"data":rows});
             } else {
                 console.log(err);
                 res.send({"success":false, "reason":"A database error has occurred."});

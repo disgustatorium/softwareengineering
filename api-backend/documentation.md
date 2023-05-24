@@ -108,3 +108,6 @@ Returns {success:true} if successful, and {success:false, reason} if not.
 /joinGroup {token, groupID}
 Joins a group with the specified ID.
 Returns {success:true} if successful, and {success:false, reason} if not.
+
+/listGroups {token}
+Returns an array of the user's groups as JSON: {success, data}
