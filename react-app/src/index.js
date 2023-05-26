@@ -29,6 +29,7 @@ import AddCustomFood from './routes/user/tracking/customFood';
 import SignUpSuccess from './routes/signUpSuccess';
 import LoginSuccess from './routes/loginSuccess';
 import CustomFood from './routes/user/tracking/customFood';
+import AddSuccess from './routes/user/tracking/addSuccess';
 
 const router = createBrowserRouter([
   { 
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
       {
         path: "/user/tracking/customFood",
         element: <AddCustomFood />
+      },
+      {
+        path: "/user/addSuccess",
+        element: <AddSuccess />
       },
     ],
   }

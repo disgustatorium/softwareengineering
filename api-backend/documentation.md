@@ -98,7 +98,7 @@ Returns an array of all the user's weight records in the DB as JSON: {success, d
 /getExerciseRecords {token}
 Returns an array of all the user's weight records in the DB as JSON: {success, data}
 
-/recordGoal {token, data:{category, quantity, dateCreated, endDate}}
+/registerGoal {token, data:{category, quantity, startDate, endDate}}
 Records a goal and adds it to the users goals.
 
 /createGroup {token, groupName}

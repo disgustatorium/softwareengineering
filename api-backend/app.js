@@ -285,7 +285,7 @@ app.post('/registerGoal', verifyToken, (req, res) => {
         connection.query("INSERT INTO goals SET ?", data.data, (err, goalReturn) => {
             if (!err) {
             	console.log(goalReturn.insertId);
-                connection.query("UPDATE users SET goals = CONCAT(goals,\',"+goalReturn.insertId+"\') WHERE userID = "+req.userID, (err, userReturn) => {
+                connection.query("UPDATE users SET goals = CONCAT(goals,',"+goalReturn.insertId+"') WHERE userID = "+req.userID, (err, userReturn) => {
                     if (!err) {
                     	res.send({"success":true});
                     } else {

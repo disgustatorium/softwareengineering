@@ -48,10 +48,10 @@ class GoalsList extends React.Component {
       <Grid container direction="column" rowGap={2} maxWidth="sm">
         {this.props.goals.map(goal => {
           const nameDict = {"Exercise":"Exercise ?","CaloriesOver":"Calories over ?","CaloriesUnder":"Calories under ?","WeightGain":"Gain ?","WeightLoss":"Gain ?"};
-          const quantityDict = {"Exercise":"? hours","CaloriesOver":"?","CaloriesUnder":"?","WeightGain":"? kg","WeightLoss":"? kg"}
-          // TODO: Check if user's setting is imperial and the category is weight - if so, convert and swap quantity
+          var quantityDict = {"Exercise":"? hours","CaloriesOver":"? kcal","CaloriesUnder":"? kcal","WeightGain":"? kg","WeightLoss":"? kg"}
+          // TODO: Check if user's setting is imperial and the category is weight - if so, convert to KG, and swap quantity to lbs
           let name = nameDict[goal.category].replace("?",quantityDict[goal.category].replace("?",goal.quantity));
-          return <GoalsListItem key={goal.goalID} name={name} endDate={goal.endDate.substring(0,10)} daysLeft={(Date.parse(goal.endDate) - Date.parse(goal.dateCreated))/(1000*3600*24)} />
+          return <GoalsListItem key={goal.goalID} name={name} endDate={goal.endDate.substring(0,10)} daysLeft={(Date.parse(goal.endDate) - Date.parse(goal.startDate))/(1000*3600*24)} />
         })}
       </Grid>
     )
@@ -62,7 +62,7 @@ class GoalsList extends React.Component {
 export default class Goals extends React.Component {
   state = {"goals":[]};
   componentDidMount() {
-    let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg0MjUyNzk2LCJleHAiOjE2ODQyNTk5OTZ9.SmG7bmiaSgC4h12pWlpOYU45onB2M_LmO9noiVA9QWg"};
+    let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MTIwMTEwLCJleHAiOjE2ODUxMjczMTB9.IyxDQsGAmXBCM4PTf7FrXVFnj3L0fnqMDgpWEb6u5qw"};
     fetch('http://localhost:3001/getGoals',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"goals":data.data});
     }).catch((err) => {console.log(err.message);});
