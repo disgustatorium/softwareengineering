@@ -100,20 +100,26 @@ app.post('/send-email', bodyParser.json(), (req, res) => {
 app.post('/register', bodyParser.json(), (req, res) => {
     let data = req.body;
     data.password = crypto.createHash('md5').update(data.password).digest('hex');
-    
-    // TODO: Check if registration username is unique
-    // TODO: Check if registration email is unique
 
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("INSERT INTO users SET ?", data, (err, rows) => {
-            connection.release();
-            
+        connection.query("INSERT INTO users SET ?", data, (err, rows) => {           
             if (!err) {
                 res.send({"success":true});
             } else {
                 console.log(err);
-                res.send({"success":false, "reason":"A database error has occurred."});
+                connection.query("SELECT * FROM USERS WHERE ?", {"username":data.username}, (err, userRows) => {
+                    connection.query("SELECT * FROM USERS WHERE ?", {"email":data.email}, (err, emailRows) => {
+                        if (emailRows.length == 0) {
+                            res.send({"success":false, "reason":"Email already in use."});
+                        } else if (userRows.length == 0) {
+                            res.send({"success":false, "reason":"Username already in use."});
+                        } else {
+                            res.send({"success":false, "reason":"A fatal database error has occurred."});
+                        }
+                    })
+                })
+                
             }
         })
     })
