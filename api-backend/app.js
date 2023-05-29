@@ -370,7 +370,7 @@ app.post('/getGroups', verifyToken, (req, res) => {
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM `groups` WHERE memberIDs REGEXP '(,"+req.userID+")(?![0123456789])'", (err, rows) => {
+        connection.query("SELECT * FROM `groups` WHERE memberIDs REGEXP '(,"+req.userID+")(?![0123456789])' OR ownerID ="+req.userID, (err, rows) => {
             connection.release()
             if (!err) {
                 res.send({"success":true,"data":rows});
@@ -412,6 +412,28 @@ app.post('/getCaloriesMonthly', verifyToken, (req, res) => {
                 console.log(err);
                 res.send({"success":false, "reason":"A database error has occurred."});
             }
+        })
+    })
+});
+
+app.post('/getUsers', verifyToken, (req, res) => {
+    let data = req.body;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT username FROM users WHERE userID IN (" + connection.escape(data.users.toString()).slice(1,-1) +  ")", (err, rows) => {
+          connection.release()
+	  if (!err) {
+	    var dataString = ""
+	    for (var row of rows) {
+	      dataString += row.username + ", ";
+	    }
+	    if (dataString == "") dataString = "None, "; 
+            res.send({"success":true,"data":dataString.slice(0, -2)});
+          } else {
+            console.log(err);
+	    res.send({"success":false, "reason":"A database error has occurred."});
+          }
         })
     })
 });

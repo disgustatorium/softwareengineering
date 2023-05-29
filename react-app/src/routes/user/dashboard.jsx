@@ -41,12 +41,11 @@ function WeightChart() {
 
   useEffect(() => { 
     if(!response) {
-      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1Mzc1NzIyLCJleHAiOjE2ODUzODI5MjJ9.wR1gmEJrcSXaZwRpdmFtOprQ9aLTYcZ6008iOxf_qQU"};
+      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
       fetch('http://localhost:3001/getWeightRecords',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
           setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.weight})));
           setResponse(true);
-          console.log("H");
         }
       }).catch((err) => {console.log(err.message);});
     }
@@ -99,7 +98,7 @@ function ExerciseChart() {
 
   useEffect(() => { 
     if(!response) {
-      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1Mzc1NzIyLCJleHAiOjE2ODUzODI5MjJ9.wR1gmEJrcSXaZwRpdmFtOprQ9aLTYcZ6008iOxf_qQU"};
+      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
       fetch('http://localhost:3001/getExerciseMonthly',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
           setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.hours})));
@@ -157,7 +156,7 @@ function CaloriesChart() {
 
   useEffect(() => { 
     if(!response) {
-      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1Mzc1NzIyLCJleHAiOjE2ODUzODI5MjJ9.wR1gmEJrcSXaZwRpdmFtOprQ9aLTYcZ6008iOxf_qQU"};
+      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
       fetch('http://localhost:3001/getCaloriesMonthly',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
           setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.calories})));
@@ -200,16 +199,16 @@ function CaloriesChart() {
 
 export default function Dashboard() {
   return (
-    <Container sx={{marginTop: "20px"}}>
+    <Container sx={{marginTop: "20px", marginBottom: "76px"}}>
       <Item>
         <Grid sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
           <ProfileCircleButton />
         </Grid>
         <Grid container sx={{textAlign: "center", display:"flex",justifyContent:"center",alignItems:"center"}}>
-          <Grid xs={5}> <h2>Exercise</h2> <ExerciseChart /> </Grid>
+          <Grid xs={12} sm={5}> <h2>Exercise</h2> <ExerciseChart /> </Grid>
           <Grid xs={1} />
-          <Grid xs={5}> <h2>Calories</h2> <CaloriesChart /> </Grid>
-          <Grid xs={5}> <h2>Weight</h2> <WeightChart /> </Grid>
+          <Grid xs={12} sm={5}> <h2>Calories</h2> <CaloriesChart /> </Grid>
+          <Grid xs={12} sm={5}> <h2>Weight</h2> <WeightChart /> </Grid>
         </Grid>
       </Item>
     </Container>
