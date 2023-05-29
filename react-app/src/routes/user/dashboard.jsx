@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -14,7 +14,7 @@ import Paper from '@mui/material/Paper';
 import ProfileCircleButton from "../../components/ProfileCircleButton";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,11 +24,38 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function LineChart({ chartData }) {
+function WeightChart() {  
+  const [chartData, setChartData] = useState([]);
+  const [response, setResponse] = useState(false);
+  
+  var data = {
+    datasets: [
+      {
+        label: "Weight",
+        data: chartData,
+        borderColor: "black",
+        borderWidth: 2
+      }
+    ]
+  }
+
+  useEffect(() => { 
+    if(!response) {
+      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1Mzc1NzIyLCJleHAiOjE2ODUzODI5MjJ9.wR1gmEJrcSXaZwRpdmFtOprQ9aLTYcZ6008iOxf_qQU"};
+      fetch('http://localhost:3001/getWeightRecords',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
+        if (data.success) { 
+          setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.weight})));
+          setResponse(true);
+          console.log("H");
+        }
+      }).catch((err) => {console.log(err.message);});
+    }
+  });
+
   return (
     <div className="chart-container">
       <Line
-        data={chartData}
+        data={data}
         options={{
           plugins: {
             title: {
@@ -36,11 +63,133 @@ function LineChart({ chartData }) {
             },
             legend: {
               display: false
+            },
+            tooltip: {
+              enabled: false
             }
           },
           scales: {
             x: {
-              type: "time"
+              type: "time",
+              time : {
+                unit: "month"
+              }
+            }
+          }
+        }}
+      />
+    </div>
+  );
+}
+
+function ExerciseChart() {  
+  const [chartData, setChartData] = useState([]);
+  const [response, setResponse] = useState(false);
+  
+  var data = {
+    datasets: [
+      {
+        label: "Exercise",
+        data: chartData,
+        borderColor: "black",
+        borderWidth: 2
+      }
+    ]
+  }
+
+  useEffect(() => { 
+    if(!response) {
+      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1Mzc1NzIyLCJleHAiOjE2ODUzODI5MjJ9.wR1gmEJrcSXaZwRpdmFtOprQ9aLTYcZ6008iOxf_qQU"};
+      fetch('http://localhost:3001/getExerciseMonthly',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
+        if (data.success) { 
+          setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.hours})));
+          setResponse(true);
+        }
+      }).catch((err) => {console.log(err.message);});
+    }
+  });
+
+
+  return (
+    <div className="chart-container">
+      <Bar
+        data={data}
+        options={{
+          plugins: {
+            title: {
+              display: false,
+            },
+            legend: {
+              display: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          },
+          scales: {
+            x: {
+              type: "time",
+              time : {
+                unit: "month"
+              }
+            }
+          }
+        }}
+      />
+    </div>
+  );
+}
+
+function CaloriesChart() {  
+  const [chartData, setChartData] = useState([]);
+  const [response, setResponse] = useState(false);
+  
+  var data = {
+    datasets: [
+      {
+        label: "Exercise",
+        data: chartData,
+        borderColor: "black",
+        borderWidth: 2
+      }
+    ]
+  }
+
+  useEffect(() => { 
+    if(!response) {
+      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1Mzc1NzIyLCJleHAiOjE2ODUzODI5MjJ9.wR1gmEJrcSXaZwRpdmFtOprQ9aLTYcZ6008iOxf_qQU"};
+      fetch('http://localhost:3001/getCaloriesMonthly',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
+        if (data.success) { 
+          setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.calories})));
+          setResponse(true);
+        }
+      }).catch((err) => {console.log(err.message);});
+    }
+  });
+
+
+  return (
+    <div className="chart-container">
+      <Bar
+        data={data}
+        options={{
+          plugins: {
+            title: {
+              display: false
+            },
+            legend: {
+              display: false
+            },
+            tooltip: {
+              enabled: false
+            }
+          },
+          scales: {
+            x: {
+              type: "time",
+              time : {
+                unit: "month"
+              }
             }
           }
         }}
@@ -50,39 +199,18 @@ function LineChart({ chartData }) {
 }
 
 export default function Dashboard() {
-  const Data = [
-    {"weightRecordID":"1","ownerID":"2","dateRecorded":"2023-05-10","weight":"89.60000"},
-    {"weightRecordID":"2","ownerID":"2","dateRecorded":"2023-05-01","weight":"93.10000"},
-    {"weightRecordID":"3","ownerID":"2","dateRecorded":"2023-03-01","weight":"102.70000"},
-    {"weightRecordID":"4","ownerID":"2","dateRecorded":"2023-02-01","weight":"107.20000"},
-    {"weightRecordID":"5","ownerID":"2","dateRecorded":"2023-01-01","weight":"111.90000"}
-  ];
-
-  const [chartData, setChartData] = useState({
-    datasets: [
-      {
-        label: "Weight",
-        data: Data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.weight})),
-        backgroundColor: [
-          "rgba(75,192,192,1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0"
-        ],
-        borderColor: "black",
-        borderWidth: 2
-      }
-    ]
-  });
-  
-  console.log(chartData.datasets[0].data);
-  
   return (
-    <Container>
+    <Container sx={{marginTop: "20px"}}>
       <Item>
-        <ProfileCircleButton></ProfileCircleButton>
-        <LineChart chartData={chartData} />
+        <Grid sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
+          <ProfileCircleButton />
+        </Grid>
+        <Grid container sx={{textAlign: "center", display:"flex",justifyContent:"center",alignItems:"center"}}>
+          <Grid xs={5}> <h2>Exercise</h2> <ExerciseChart /> </Grid>
+          <Grid xs={1} />
+          <Grid xs={5}> <h2>Calories</h2> <CaloriesChart /> </Grid>
+          <Grid xs={5}> <h2>Weight</h2> <WeightChart /> </Grid>
+        </Grid>
       </Item>
     </Container>
   );

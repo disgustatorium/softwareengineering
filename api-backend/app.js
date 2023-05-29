@@ -133,11 +133,13 @@ app.post('/login', (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT * FROM users WHERE ?", {"username":data.username}, (err, rows) => {
+            connection.release()
             if (!err) {
             	if (rows.length == 1) {
             	    if (rows[0].password == data.password) {
             	        let token = jwt.sign({userID: rows[0].userID, username: data.username}, tokenKey, {expiresIn: "2h"});
             	    	res.send({"success":true, "token":token});
+            	    	connection.release()
             	    } else {
             	    	res.send({"success":false, "reason":"Invalid username and password combination."}) 
             	    }
@@ -159,6 +161,7 @@ app.post('/recordFood', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("INSERT INTO foodRecords SET ?", data.data, (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true});
             } else {
@@ -175,6 +178,7 @@ app.post('/recordWeight', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("INSERT INTO weightRecords SET ?", data.data, (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true});
             } else {
@@ -191,6 +195,7 @@ app.post('/recordExercise', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("INSERT INTO exerciseRecords SET ?", data.data, (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true});
             } else {
@@ -208,6 +213,7 @@ app.post('/getGoals', verifyToken, (req, res) => {
         if (err) throw err;
         connection.query("SELECT goals FROM users WHERE ?", {"userID":req.userID}, (err, userRows) => {
 	    connection.query("SELECT * FROM goals WHERE goalID IN (" + userRows[0].goals +  ")", (err, goalRows) => {
+	        connection.release()
 		if (!err) {
 	            res.send({"success":true,"data":goalRows});
 		} else {
@@ -225,6 +231,7 @@ app.post('/getFoods', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT * FROM foods", (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true,"data":rows});
             } else {
@@ -240,7 +247,8 @@ app.post('/getFoodRecords', verifyToken, (req, res) => {
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM foodRecords WHERE ownerID = "+req.userID, (err, rows) => {
+        connection.query("SELECT * FROM foodRecords WHERE ownerID = "+req.userID+" ORDER BY dateRecorded", (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true,"data":rows});
             } else {
@@ -256,7 +264,8 @@ app.post('/getWeightRecords', verifyToken, (req, res) => {
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM weightRecords WHERE ownerID = " + req.userID, (err, rows) => {
+        connection.query("SELECT * FROM weightRecords WHERE ownerID = "+req.userID+" ORDER BY dateRecorded", (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true,"data":rows});
             } else {
@@ -272,7 +281,8 @@ app.post('/getExerciseRecords', verifyToken, (req, res) => {
     
     pool.getConnection((err, connection) => {
         if (err) throw err;
-        connection.query("SELECT * FROM exerciseRecords WHERE ownerID = "+req.userID, (err, rows) => {
+        connection.query("SELECT * FROM exerciseRecords WHERE ownerID = "+req.userID+" ORDER BY dateRecorded", (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true,"data":rows});
             } else {
@@ -292,6 +302,7 @@ app.post('/registerGoal', verifyToken, (req, res) => {
             if (!err) {
             	console.log(goalReturn.insertId);
                 connection.query("UPDATE users SET goals = CONCAT(goals,',"+goalReturn.insertId+"') WHERE userID = "+req.userID, (err, userReturn) => {
+                    connection.release()
                     if (!err) {
                     	res.send({"success":true});
                     } else {
@@ -302,6 +313,7 @@ app.post('/registerGoal', verifyToken, (req, res) => {
             } else {
                 console.log(err);
                 res.send({"success":false, "reason":"A database error has occurred."});
+                connection.release()
             }
         })
     })
@@ -313,6 +325,7 @@ app.post('/createGroup', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("INSERT INTO groups SET ?", groupJson, (err, rows) => {
+            connection.release()
             if (!err) {
             	res.send({"success":true});
             } else {
@@ -331,6 +344,7 @@ app.post('/joinGroup', verifyToken, (req, res) => {
             if (!err) {
                 if (rows.length == 1 && !rows[0].memberIDs.split(",").includes(req.userID) && rows[0].ownerID != req.userID) {
             	    connection.query("UPDATE groups SET memberIDs = CONCAT(memberIDs,',"+req.userID+"') WHERE groupID = "+connection.escape(data.groupID), (err, rows) => {
+            	        connection.release()
                         if (!err) {
                         	res.send({"success":true});
                         } else {
@@ -340,10 +354,12 @@ app.post('/joinGroup', verifyToken, (req, res) => {
                     })
             	} else {
             	    res.send({"success":false, "reason":"No group found, or you are already a member."});
+            	    connection.release()
             	}
             } else {
                 console.log(err);
                 res.send({"success":false, "reason":"A database error has occurred."});
+                connection.release()
             }
         })
     })
@@ -355,6 +371,41 @@ app.post('/getGroups', verifyToken, (req, res) => {
     pool.getConnection((err, connection) => {
         if (err) throw err;
         connection.query("SELECT * FROM `groups` WHERE memberIDs REGEXP '(,"+req.userID+")(?![0123456789])'", (err, rows) => {
+            connection.release()
+            if (!err) {
+                res.send({"success":true,"data":rows});
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+
+app.post('/getExerciseMonthly', verifyToken, (req, res) => {
+    let data = req.body;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT SUM(hours) AS hours, LEFT(dateRecorded,7) AS dateRecorded FROM exerciseRecords WHERE ownerID ="+req.userID+" GROUP BY MONTH(dateRecorded), YEAR(dateRecorded) ORDER BY dateRecorded", (err, rows) => {
+            connection.release()
+            if (!err) {
+                res.send({"success":true,"data":rows});
+            } else {
+                console.log(err);
+                res.send({"success":false, "reason":"A database error has occurred."});
+            }
+        })
+    })
+});
+
+app.post('/getCaloriesMonthly', verifyToken, (req, res) => {
+    let data = req.body;
+    
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT SUM(quantity * calPerQuantity) AS calories, LEFT(dateRecorded,7) AS dateRecorded FROM foodRecords INNER JOIN foods ON foodRecords.foodType=foods.foodID WHERE ownerID ="+req.userID+" GROUP BY MONTH(dateRecorded), YEAR(dateRecorded) ORDER BY dateRecorded", (err, rows) => {
+            connection.release()
             if (!err) {
                 res.send({"success":true,"data":rows});
             } else {
