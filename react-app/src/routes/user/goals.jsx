@@ -9,7 +9,7 @@ import React from "react";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: theme.spacing(4),
   color: theme.palette.text.secondary,
 }));
 
@@ -72,12 +72,16 @@ export default class Goals extends React.Component {
     return (
       <Container sx={
         {
-          padding: "30px", marginBottom: "76px"
+          padding: "30px"
         }
       } maxWidth="sm">
+        <Item>
         <Typography variant="h2" component="h1" gutterBottom> Goals </Typography>
+        <Grid container direction="column" rowGap={2} maxWidth="sm">
         <AddGoalButton></AddGoalButton>
         <GoalsList goals={this.state.goals}/>
+        </Grid>
+        </Item>
       </Container>
     );
   }

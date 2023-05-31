@@ -11,7 +11,7 @@ import React from "react";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: theme.spacing(4),
   color: theme.palette.text.secondary,
 }));
 
@@ -80,14 +80,18 @@ export default class Groups extends React.Component {
     return (
       <Container sx={
         {
-          padding: "30px", marginBottom: "76px"
+          padding: "30px"
         }
       } maxWidth="sm">
+        <Item>
         <Typography variant="h2" component="h1" gutterBottom> Your groups </Typography>
+        <Grid container direction="column" rowGap={2} maxWidth="sm">
         <AddGroupButton></AddGroupButton>
         {/* 
         group search bar */}
         <GroupList groups={this.state.groups} />
+        </Grid>
+        </Item>
       </Container>
     );
   }
