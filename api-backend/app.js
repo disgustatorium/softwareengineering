@@ -27,7 +27,9 @@ const pool  = mysql.createPool({
     connectionLimit : 10,
     host            : 'localhost',
     user            : 'root',
-    database        : 'fitquest'
+    database        : 'fitquest',
+    dateStrings     : [ "DATE",
+    			"DATETIME" ]
 });
 
 
@@ -139,7 +141,6 @@ app.post('/login', (req, res) => {
             	    if (rows[0].password == data.password) {
             	        let token = jwt.sign({userID: rows[0].userID, username: data.username}, tokenKey, {expiresIn: "2h"});
             	    	res.send({"success":true, "token":token});
-            	    	connection.release()
             	    } else {
             	    	res.send({"success":false, "reason":"Invalid username and password combination."}) 
             	    }

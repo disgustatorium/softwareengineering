@@ -18,10 +18,28 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
+
 export default function AddWeight() {
-  const [value, setValue] = useState(dayjs());
+    const [formDate, setDate] = useState(dayjs());
+    const [weight, setWeight] = useState();
+    
+    function submitWeight() {
+        var formData = { "weight":weight.target.value,
+        "dateRecorded":formDate["$d"].toISOString().split('T')[0],
+        };
+	if (!formData.weight || !formData.dateRecorded) {
+	  alert("Please ensure all fields are filled.");
+	  return;
+	}
+        let requestJson = {"token":userToken,"data":formData};
+        fetch('http://localhost:3001/recordWeight',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
+            if (data.success) window.location.href = "../addSuccess";
+            else console.log(data);
+        }).catch((err) => {console.log(err.message);});
+    }
+    
     return (
-      
     <Container sx={
         { padding: "30px" }
       } maxWidth="sm">
@@ -31,11 +49,15 @@ export default function AddWeight() {
             <Grid container direction="column" rowGap={2} maxWidth="sm">
         <DatePicker
             label="Date"
-            value={value}
-            onChange={(newValue) => setValue(newValue)}
+            value={formDate}
+            onChange={(newValue) => setDate(newValue)}
         />
-        <TextField id="weight" label="Weight in kgs" variant="outlined" />
-        <Button variant="contained" component={Link} to="addWeight" endIcon={<SpeedIcon />}> Log Weight</Button>
+        <TextField 
+            label="Weight (kg)"
+            variant="outlined"
+            onChange={(newValue) => setWeight(newValue)}
+        />
+        <Button variant="contained" onClick={submitWeight} endIcon={<SpeedIcon />}> Log Weight</Button>
         </Grid>
         </Item>
       

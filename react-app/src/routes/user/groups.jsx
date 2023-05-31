@@ -15,18 +15,20 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
+
 class GroupListItem extends React.Component {
   state = {"members":""};
   owner = "";
   
   componentDidMount() {
     let owner = "";
-    let requestJson =  {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo", "users":this.props.ownerID};
+    let requestJson =  {"token":userToken, "users":this.props.ownerID};
     fetch('http://localhost:3001/getUsers',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.owner = data.data;
     }).catch((err) => {console.log(err.message);});
     
-    requestJson =  {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo", "users":this.props.memberIDs};
+    requestJson =  {"token":userToken, "users":this.props.memberIDs};
     fetch('http://localhost:3001/getUsers',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"owner":this.state.owner,"members":data.data});
     }).catch((err) => {console.log(err.message);});
@@ -69,7 +71,7 @@ class GroupList extends React.Component {
 export default class Groups extends React.Component {
   state = {groups:[]};
   componentDidMount() {
-    let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
+    let requestJson = {"token":userToken};
     fetch('http://localhost:3001/getGroups',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"groups":data.data});
     }).catch((err) => {console.log(err.message);});
@@ -78,8 +80,7 @@ export default class Groups extends React.Component {
     return (
       <Container sx={
         {
-  
-          padding: "30px"
+          padding: "30px", marginBottom: "76px"
         }
       } maxWidth="sm">
         <Typography variant="h2" component="h1" gutterBottom> Your groups </Typography>

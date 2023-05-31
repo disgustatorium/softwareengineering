@@ -24,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
 
 export default function AddGoal() {
     const [type, setType] = useState();
@@ -42,14 +43,24 @@ export default function AddGoal() {
     
     function submitGoal() {
         // TODO: Check if user's setting is imperial and the category is weight - if so, convert to KG, and swap quantity to lbs
-        // TODO: Date validation
-        // TODO: Ensure none are empty before submission
         var formData = { "category":categoryDict[type.target.textContent],
         "quantity":quantity.target.value,
         "startDate":startDate["$d"].toISOString().split('T')[0],
         "endDate":endDate["$d"].toISOString().split('T')[0]
         };
-        let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MTIwMTEwLCJleHAiOjE2ODUxMjczMTB9.IyxDQsGAmXBCM4PTf7FrXVFnj3L0fnqMDgpWEb6u5qw","data":formData};
+	if (!formData.category || !formData.quantity || !formData.startDate || !formData.endDate) {
+	  alert("Please ensure all fields are filled.");
+	  return;
+	}        
+        if (formData.startDate == formData.endDate) {
+          alert("Please ensure start date and end date are not the same.");
+          return;
+        }
+        if (formData.startDate < new Date(Date.UTC()) || formData.endDate < new Date(Date.UTC())) {
+          alert("Please ensure start date and/or end date are not in the past.");
+          return;
+        }
+        let requestJson = {"token":userToken,"data":formData};
         fetch('http://localhost:3001/registerGoal',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../addSuccess";
         }).catch((err) => {console.log(err.message);});
@@ -57,7 +68,7 @@ export default function AddGoal() {
 
     return (
 	<Container sx={
-	    { padding: "30px" }
+	    { padding: "30px", marginBottom: "76px" }
 	} maxWidth="sm">
 	    
 	    <Typography variant="h2" component="h1" gutterBottom> Add goal </Typography>

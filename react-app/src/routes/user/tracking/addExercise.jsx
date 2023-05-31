@@ -12,6 +12,7 @@ import { DatePicker, TimeClock, TimePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import { TimeField } from '@mui/x-date-pickers/TimeField';
 
 const exerciseCategories = [{label:"Swimming"},{label:"Running"},{label:"Snorkelling"}]
 
@@ -66,8 +67,31 @@ function ExerciseList({ exercise }) {
   )
 }
 
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
+
 export default function AddExercise() {
-  const [value, setValue] = useState(dayjs());
+    const [formDate, setDate] = useState(dayjs());
+    const [type, setType] = useState();
+    const [duration, setDuration] = useState(dayjs());
+    
+    function submitExercise() {
+        var formData = { "type":type.target.textContent,
+        "hours":(duration["$H"]+(duration["$m"]/60)),
+        "dateRecorded":formDate["$d"].toISOString().split('T')[0],
+        };
+	if (!formData.type || !formData.hours || !formData.dateRecorded) {
+	  alert("Please ensure all fields are filled.");
+	  console.log(formData);
+	  return;
+	}
+        let requestJson = {"token":userToken,"data":formData};
+        fetch('http://localhost:3001/recordExercise',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
+            if (data.success) window.location.href = "../addSuccess";
+            else console.log(data);
+        }).catch((err) => {console.log(err.message);});
+    }
+    
+    
     return (
       
     <Container sx={
@@ -81,15 +105,16 @@ export default function AddExercise() {
             fullWidth
             id="category_options"
             options={exerciseCategories}
+            onChange={(newValue) => setType(newValue)}
             renderInput={(params) => <TextField {...params} label="Activity" />}
         />
         <DatePicker
             label="Date"
-            value={value}
-            onChange={(newValue) => setValue(newValue)}
+            value={formDate}
+            onChange={(newValue) => setDate(newValue)}
         />
-        <TextField id="exerciseDuration" type="time" label="Duration"></TextField>
-        <Button variant="contained" component={Link} to="addExercise" endIcon={<FitnessCenterIcon />}> Log Exercise</Button>
+        <TimeField id="exerciseDuration" onChange={(newValue) => setDuration(newValue)} label="Duration " />
+        <Button variant="contained" onClick={submitExercise} endIcon={<FitnessCenterIcon />}> Log Exercise</Button>
         </Grid>
         </Item>
       

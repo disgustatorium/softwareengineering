@@ -17,12 +17,17 @@ import { CategoryScale } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 
+Chart.defaults.font.family = "'Roboto','Helvetica','Arial',sans-serif";
+Chart.defaults.backgroundColor = '#9BD0F5';
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
 }));
+
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
 
 function WeightChart() {  
   const [chartData, setChartData] = useState([]);
@@ -41,7 +46,7 @@ function WeightChart() {
 
   useEffect(() => { 
     if(!response) {
-      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
+      let requestJson = {"token":userToken};
       fetch('http://localhost:3001/getWeightRecords',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
           setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.weight})));
@@ -98,7 +103,7 @@ function ExerciseChart() {
 
   useEffect(() => { 
     if(!response) {
-      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
+      let requestJson = {"token":userToken};
       fetch('http://localhost:3001/getExerciseMonthly',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
           setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.hours})));
@@ -156,7 +161,7 @@ function CaloriesChart() {
 
   useEffect(() => { 
     if(!response) {
-      let requestJson = {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1MzgzOTk3LCJleHAiOjE2ODUzOTExOTd9.0WPT_uGFF0qG_ELadnmyxUwtfWHrybwedg0YGxzValo"};
+      let requestJson = {"token":userToken};
       fetch('http://localhost:3001/getCaloriesMonthly',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
           setChartData(data.data.map((data) => ({"x":new Date(data.dateRecorded).getTime(), "y":data.calories})));
