@@ -46,7 +46,7 @@ class GoalsList extends React.Component {
   render() {
     return (
       <Grid container direction="column" rowGap={2} maxWidth="sm">
-        {this.props.goals.map(goal => {
+        {this.props.goals.filter(goal => (Date.parse(goal.endDate) - new Date()) > 0).map(goal => {
           const nameDict = {"Exercise":"Exercise ?","CaloriesOver":"Calories over ?","CaloriesUnder":"Calories under ?","WeightGain":"Gain ?","WeightLoss":"Gain ?"};
           var quantityDict = {"Exercise":"? hours","CaloriesOver":"? kcal","CaloriesUnder":"? kcal","WeightGain":"? kg","WeightLoss":"? kg"}
           // TODO: Check if user's setting is imperial and the category is weight - if so, convert to KG, and swap quantity to lbs
@@ -58,7 +58,7 @@ class GoalsList extends React.Component {
   }
 }
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
 
 export default class Goals extends React.Component {
   state = {"goals":[]};
