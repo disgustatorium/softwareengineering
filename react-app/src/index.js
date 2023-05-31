@@ -30,6 +30,7 @@ import SignUpSuccess from './routes/signUpSuccess';
 import LoginSuccess from './routes/loginSuccess';
 import CustomFood from './routes/user/tracking/customFood';
 import AddSuccess from './routes/user/tracking/addSuccess';
+import JoinGroup from './routes/user/tracking/joinGroup';
 
 const router = createBrowserRouter([
   { 
@@ -117,6 +118,10 @@ const router = createBrowserRouter([
       {
         path: "/user/addSuccess",
         element: <AddSuccess />
+      },
+      {
+        path: "/user/groups/joinGroup",
+        element: <JoinGroup />
       },
     ],
   }
