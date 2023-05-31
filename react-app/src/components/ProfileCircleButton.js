@@ -6,6 +6,6 @@ import IconButton from '@mui/material/IconButton';
 
 export default function ProfileCircleButton() {
     return (
-        <IconButton size="large" component={Link} to="userSettings" aria-label="userProfile"> <AccountCircleIcon /> </IconButton>
+        <IconButton size="large" component={Link} to="userSettings" color="secondary" aria-label="userProfile">  <AccountCircleIcon /> </IconButton>
     )
 }
