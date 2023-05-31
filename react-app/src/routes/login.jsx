@@ -3,7 +3,6 @@ import '../Landing.css';
 import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom"
-
 import { Typography, Button, ThemeProvider, Box } from '@mui/material';
 
 
@@ -108,7 +107,7 @@ export default function LogIn() {
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'}}>
-      <Typography variant="h1" color="primary.main"> Welcome back to FitTrack! </Typography>
+      <Typography variant="h1" color="primary.main"> Welcome back to FitQuest! </Typography>
       </div>
 
       <form onSubmit={handleSubmit}>

@@ -1,4 +1,3 @@
-//import logo from './logo.svg';
 import '../Landing.css';
 import theme from '../theme';
 import Navbar from '../components/Navbar';

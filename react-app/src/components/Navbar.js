@@ -9,7 +9,7 @@ function Navbar() {
     <ThemeProvider theme={theme}>
     <AppBar position="static" color="background" >
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}> FitTrack </Typography>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}> FitQuest </Typography>
         <Button size="small" variant="contained" color="secondary" component={Link} to="/login"> Log In </Button>
       </Toolbar>
     </AppBar>   

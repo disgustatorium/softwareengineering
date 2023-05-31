@@ -186,7 +186,7 @@ export default function SignUp() {
       }}
     >
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px'}}>
-      <Typography variant="h1" color="primary.main"> Welcome to FitTrack! </Typography>
+      <Typography variant="h1" color="primary.main"> Welcome to FitQuest! </Typography>
       </div>
 
       <form onSubmit={handleSubmit}>
