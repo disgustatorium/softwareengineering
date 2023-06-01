@@ -15,7 +15,7 @@ import Paper from '@mui/material/Paper';
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: theme.spacing(4),
   color: theme.palette.text.secondary,
 }));
 
@@ -24,7 +24,7 @@ const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJu
 export default function AddGroup() {
     return (
         <Container sx={
-	    { padding: "30px", marginBottom: "76px" }
+	    { padding: "30px"}
 	} maxWidth="sm">
 	
 	        <Item>
