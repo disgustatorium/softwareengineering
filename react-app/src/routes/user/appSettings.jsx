@@ -38,9 +38,9 @@ export default function AppSettings() {
             <Grid container direction="column" rowGap={2} maxWidth="sm">
                   
             <TextField 
-            label="New Email Address"
+            label="New Email"
             variant="outlined"
-            value="newEmail"
+            value="New email"
             onChange={(newValue) => setNewEmail(newValue)}
         />
         <Button variant="contained" onClick={submitChangeEmail}> Change Email</Button>
