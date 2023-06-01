@@ -16,7 +16,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function AppSettings() {
   const [newEmail, setNewEmail] = useState();
-  function submitChangeEmail() {
+  const [newFirstName, setNewFirstName] = useState();
+  const [newLastName, setNewLastName] = useState();
+  function saveChanges() {
     
 
     var formData = { "newEmail":newEmail.target.textContent};
@@ -40,10 +42,19 @@ export default function AppSettings() {
             <TextField 
             label="New Email"
             variant="outlined"
-            value="New email"
             onChange={(newValue) => setNewEmail(newValue)}
         />
-        <Button variant="contained" onClick={submitChangeEmail}> Change Email</Button>
+        <TextField 
+            label="New First name"
+            variant="outlined"
+            onChange={(newValue) => setNewFirstName(newValue)}
+        />
+        <TextField 
+            label="New Last Name"
+            variant="outlined"
+            onChange={(newValue) => setNewLastName(newValue)}
+        />
+        <Button variant="contained" onClick={saveChanges}> Save Changes</Button>
         </Grid>
        </Item>
     </Container>
