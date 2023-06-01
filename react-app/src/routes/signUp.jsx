@@ -156,7 +156,7 @@ export default function SignUp() {
       sendEmail(to, subject, file);
     
       // redirects user to sign up successful page 
-      navigate('/signUpSuccess');
+      navigate('/user/dashboard');
     };
 
     const onError = (reason) => {

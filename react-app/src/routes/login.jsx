@@ -75,7 +75,7 @@ export default function LogIn() {
 
     const onSuccess = () => {
       // redirects user to sign up successful page 
-      navigate('/loginSuccess');
+      navigate('/user/dashboard');
     };
 
     const onError = (reason) => {
@@ -126,7 +126,7 @@ export default function LogIn() {
         <input type="password" id="password" autoComplete="new-password" onChange={handleChange} />
         <br />
       
-        <button type="submit">Login</button>
+        <Button variant="contained" type="submit">Login</Button>
       </form>
     </div>
     </ThemeProvider>
