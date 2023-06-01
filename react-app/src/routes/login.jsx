@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom"
 import { Typography, Button, ThemeProvider, Box } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+
 
 
 export default function LogIn() {
@@ -111,15 +113,15 @@ export default function LogIn() {
       </div>
 
       <form onSubmit={handleSubmit}>
-
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
+        <Grid container direction="column" rowGap={2} maxWidth="sm">
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Typography variant="h5" color="primary.main"> Username: </Typography>
         </div>
         <label htmlFor="username"></label>
         <input type="text" id="username" onChange={handleChange} />
         <br />
 
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px'}}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Typography variant="h5" color="primary.main">Password:</Typography>
         </div>
         <label htmlFor="password"></label>
@@ -127,6 +129,7 @@ export default function LogIn() {
         <br />
       
         <Button variant="contained" type="submit">Login</Button>
+        </Grid>
       </form>
     </div>
     </ThemeProvider>
