@@ -29,7 +29,7 @@ export default function AddGroup() {
 	  alert("Please ensure all fields are filled.");
 	  return;
 	}        
-  let requestJson = {"token":window.localStorage.getItem("token"),"data":formData,"groupName":name.target.value};
+  let requestJson = {"token":window.localStorage.getItem("token"), "groupName":name.target.value};
         fetch('http://localhost:3001/createGroup',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../groups";
         }).catch((err) => {console.log(err.message);});
