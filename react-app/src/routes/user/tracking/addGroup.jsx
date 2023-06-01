@@ -1,14 +1,10 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Unstable_Grid2';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
@@ -18,8 +14,6 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   color: theme.palette.text.secondary,
 }));
-
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NjQ4OTUwLCJleHAiOjE2ODU2NTYxNTB9.-iOA23kDphJwjF1XX-r9LwUjLzmlz4ylIVkVHldExGA";
 
 export default function AddGroup() {
     const [name, setName] = useState();

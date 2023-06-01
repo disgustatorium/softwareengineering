@@ -4,7 +4,6 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
@@ -17,8 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
   color: theme.palette.text.secondary,
 }));
-
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
 
 export default function AddWeight() {
     const [formDate, setDate] = useState(dayjs());

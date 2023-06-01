@@ -16,8 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
-
 class GroupListItem extends React.Component {
   state = {"members":""};
   owner = "";
@@ -29,7 +27,7 @@ class GroupListItem extends React.Component {
      if (data.success) this.owner = data.data;
     }).catch((err) => {console.log(err.message);});
     
-    requestJson =  {"token":userToken, "users":this.props.memberIDs};
+    requestJson =  {"token":window.localStorage.getItem("token"), "users":this.props.memberIDs};
     fetch('http://localhost:3001/getUsers',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"owner":this.state.owner,"members":data.data});
     }).catch((err) => {console.log(err.message);});

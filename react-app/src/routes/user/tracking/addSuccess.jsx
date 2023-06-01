@@ -1,10 +1,6 @@
 import React, {useState} from 'react'
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom'
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import SpeedIcon from '@mui/icons-material/Speed';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
