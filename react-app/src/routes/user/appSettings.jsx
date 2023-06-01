@@ -22,6 +22,8 @@ export default function AppSettings() {
     
 
     var formData = { "newEmail":newEmail.target.textContent};
+    var formData = { "newFirstName":newFirstName.target.textContent};
+    var formData = { "newLastName":newLastName.target.textContent};
 
     let requestJson = {"token":window.localStorage.getItem("token"),"data":formData};
     fetch('http://localhost:3001/appSettings',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
@@ -54,6 +56,7 @@ export default function AppSettings() {
             variant="outlined"
             onChange={(newValue) => setNewLastName(newValue)}
         />
+
         <Button variant="contained" onClick={saveChanges}> Save Changes</Button>
         </Grid>
        </Item>
