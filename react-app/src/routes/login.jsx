@@ -26,6 +26,7 @@ export default function LogIn() {
 
       const data = await response.json();
       console.log(data);
+      window.localStorage.setItem("token", data.token)
 
 
       if (data.success) {
@@ -75,7 +76,7 @@ export default function LogIn() {
 
     const onSuccess = () => {
       // redirects user to sign up successful page 
-      navigate('/loginSuccess');
+      navigate('/user/dashboard');
     };
 
     const onError = (reason) => {
