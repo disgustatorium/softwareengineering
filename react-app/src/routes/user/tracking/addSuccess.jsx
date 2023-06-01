@@ -26,6 +26,7 @@ export default function Tracking() {
         { padding: "30px" }
       } maxWidth="sm">
         <Item>
+
           <Container sx={
             {
               padding: "15px"
@@ -41,7 +42,10 @@ export default function Tracking() {
             }
           } maxWidth="sm">
           </Container>
+          <Grid container direction="column" rowGap={2} maxWidth="sm">
           <Button variant="contained" onClick={()=>{window.history.back()}} endIcon={<AddCircleIcon />}> Add another </Button>
+          <Button variant="contained" onClick={()=>{window.history.go(-2)}} endIcon={<AddCircleIcon />}> Return to tracking </Button>
+          </Grid>
           <Container sx={
             {
               padding: "15px"
