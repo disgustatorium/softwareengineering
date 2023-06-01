@@ -12,19 +12,14 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 
-
-
-
-
-
 const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(2),
-    color: theme.palette.text.secondary,
-  }));
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(4),
+  color: theme.palette.text.secondary,
+}));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
 
 export default function AddGroup() {
     const [name, setName] = useState();
@@ -41,19 +36,24 @@ export default function AddGroup() {
     }
 
     return (
-	<Container sx={
+        <Container sx={
 	    { padding: "30px", marginBottom: "76px" }
 	} maxWidth="sm">
-	    
-	    <Typography variant="h2" component="h1" gutterBottom> New Group </Typography>
+	
 	        <Item>
+                <Typography variant="h2" component="h1" gutterBottom> Create group </Typography>
 	        <Grid container direction="column" rowGap={2} maxWidth="sm">
             <TextField 
-                label="Name"
+                label="Group name"
                 variant="outlined"
                 onChange={(newValue) => setName(newValue)}
             />
-	      <Button variant="contained" onClick={newGroup} endIcon={<AddCircleIcon />}> Create </Button>
+            <TextField 
+                label="Members"
+                variant="outlined"
+                select
+            />
+	      <Button variant="contained" endIcon={<AddCircleIcon />}> Add </Button>
 	    </Grid>
 	    </Item>
 	  
