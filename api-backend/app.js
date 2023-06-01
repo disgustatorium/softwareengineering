@@ -230,6 +230,49 @@ app.post('/getGoals', verifyToken, (req, res) => {
     })
 });
 
+app.post('/goalSuggestions', verifyToken, (req, res) => {
+    let data = req.body;
+
+    pool.getConnection((err, connection) => {
+        if (err) throw err;
+        connection.query("SELECT goals FROM users WHERE ?", { "userID": req.userID }, (err, userRows) => {
+            connection.query("SELECT * FROM goals WHERE goalID IN (" + userRows[0].goals + ")", (err, goalRows) => {
+                connection.release();
+                if (!err) {
+                    let suggestions = []
+
+                    let categoryCount = {
+                        "WeightLoss": 0,
+                        "WeightGain": 0,
+                        "Calories": 0
+                    }
+
+                    for (const goal of goalRows) {
+                        console.log(goal)
+                        categoryCount[goal.category] = categoryCount[goal.category] + 1
+                    }
+
+
+                    if (categoryCount["WeightLoss"] == 0) {
+                        suggestions.push("Try adding a weight loss goal!")
+                    }
+                    if (categoryCount["WeightGain"] == 0) {
+                        suggestions.push("Try adding a weight gain goal!")
+                    }
+                    if (categoryCount["Calories"] == 0) {
+                        suggestions.push("Try adding a calories goal!")
+                    }
+                    console.log(categoryCount)
+                    res.send({ "success": true, "data": suggestions });
+                } else {
+                    console.log(err);
+                    res.send({ "success": false, "reason": "A database error has occurred." });
+                }
+            })
+        })
+    })
+});
+
 app.post('/getFoods', verifyToken, (req, res) => {
     let data = req.body;
     
