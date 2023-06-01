@@ -58,12 +58,10 @@ class GoalsList extends React.Component {
   }
 }
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
-
 export default class Goals extends React.Component {
   state = {"goals":[]};
   componentDidMount() {
-    let requestJson = {"token":userToken};
+    let requestJson = {"token":window.localStorage.getItem("token")};
     fetch('http://localhost:3001/getGoals',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"goals":data.data});
     }).catch((err) => {console.log(err.message);});

@@ -16,7 +16,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTY3MzM0LCJleHAiOjE2ODU1NzQ1MzR9.1pW5I-9-U_Wi8QJxJ-sfRdKIsrjrf9Pa-RGDNZFdgIA";
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
 
 class GroupListItem extends React.Component {
   state = {"members":""};
@@ -24,7 +24,7 @@ class GroupListItem extends React.Component {
   
   componentDidMount() {
     let owner = "";
-    let requestJson =  {"token":userToken, "users":this.props.ownerID};
+    let requestJson = {"token":window.localStorage.getItem("token"), "users":this.props.ownerID};
     fetch('http://localhost:3001/getUsers',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.owner = data.data;
     }).catch((err) => {console.log(err.message);});
@@ -75,7 +75,7 @@ class GroupList extends React.Component {
 export default class Groups extends React.Component {
   state = {groups:[]};
   componentDidMount() {
-    let requestJson = {"token":userToken};
+    let requestJson = {"token":window.localStorage.getItem("token")};
     fetch('http://localhost:3001/getGroups',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"groups":data.data}); console.log(data);
     }).catch((err) => {console.log(err.message);});
