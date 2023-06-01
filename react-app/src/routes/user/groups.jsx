@@ -90,8 +90,7 @@ export default class Groups extends React.Component {
         <Item>
         <Typography variant="h2" component="h1" gutterBottom> Your groups </Typography>
         <Grid container direction="column" rowGap={2} maxWidth="sm">
-        <AddGroupButton />
-        <JoinGroupButton />
+        <AddGroupButton /><JoinGroupButton />
         {/* 
         group search bar */}
         <GroupList groups={this.state.groups} />

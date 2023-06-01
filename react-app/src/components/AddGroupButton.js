@@ -5,6 +5,6 @@ import { Link } from 'react-router-dom';
 
 export default function AddGroupButton() {
     return (
-        <Button variant="contained" component={Link} to="addGroup" endIcon={<AddCircleIcon />}> Add group</Button>
+        <Button variant="contained" component={Link} to="addGroup" endIcon={<AddCircleIcon />}> Create group</Button>
     )
 }
