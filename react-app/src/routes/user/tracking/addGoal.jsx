@@ -24,7 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
 
 export default function AddGoal() {
     const [type, setType] = useState();
@@ -70,9 +70,9 @@ export default function AddGoal() {
 	<Container sx={
 	    { padding: "30px", marginBottom: "76px" }
 	} maxWidth="sm">
-	    
-	    <Typography variant="h2" component="h1" gutterBottom> Add goal </Typography>
+	
 	        <Item>
+                <Typography variant="h2" component="h1" gutterBottom> Add goal </Typography>
 	        <Grid container direction="column" rowGap={2} maxWidth="sm">
 	    <Autocomplete
 	        fullWidth
