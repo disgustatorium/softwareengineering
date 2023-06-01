@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
+const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NjQ4OTUwLCJleHAiOjE2ODU2NTYxNTB9.-iOA23kDphJwjF1XX-r9LwUjLzmlz4ylIVkVHldExGA";
 
 export default function AddGroup() {
     const [name, setName] = useState();
@@ -41,7 +41,7 @@ export default function AddGroup() {
 	} maxWidth="sm">
 	
 	        <Item>
-                <Typography variant="h2" component="h1" gutterBottom> Create group </Typography>
+                <Typography variant="h2" component="h1" gutterBottom> Add group </Typography>
 	        <Grid container direction="column" rowGap={2} maxWidth="sm">
             <TextField 
                 label="Group name"
@@ -53,7 +53,7 @@ export default function AddGroup() {
                 variant="outlined"
                 select
             />
-	      <Button variant="contained" endIcon={<AddCircleIcon />}> Add </Button>
+	      <Button variant="contained" onClick={newGroup} endIcon={<AddCircleIcon />}> Add </Button>
 	    </Grid>
 	    </Item>
 	  
