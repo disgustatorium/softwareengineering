@@ -24,6 +24,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function CustomFood() {
 
+    const navigate = useNavigate();    
 
     const [formDate, setDate] = useState(dayjs());
     const [category, setCategory] = useState();
@@ -43,8 +44,11 @@ export default function CustomFood() {
 	}
         let requestJson = {"token":userToken,"data":formData};
         fetch('http://localhost:3001/recordFood',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
-            if (data.success) window.location.href = ".../addSuccess";
-            else console.log(data);
+          if (data.success) {
+            navigate('/user/addSuccess');
+          } else {
+            console.log(data);
+          }
         }).catch((err) => {console.log(err.message);});
     }
 
