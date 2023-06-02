@@ -252,7 +252,6 @@ app.post('/goalSuggestions', verifyToken, (req, res) => {
                         categoryCount[goal.category] = categoryCount[goal.category] + 1
                     }
 
-
                     if (categoryCount["WeightLoss"] == 0) {
                         suggestions.push("Try adding a weight loss goal!")
                     }
@@ -262,6 +261,7 @@ app.post('/goalSuggestions', verifyToken, (req, res) => {
                     if (categoryCount["Calories"] == 0) {
                         suggestions.push("Try adding a calories goal!")
                     }
+
                     console.log(categoryCount)
                     res.send({ "success": true, "data": suggestions });
                 } else {

@@ -60,39 +60,40 @@ export default function AddGoal() {
     }
 
     return (
-	<Container sx={
-	    { padding: "30px", marginBottom: "76px" }
-	} maxWidth="sm">
-	
-	        <Item>
+        <Container sx={
+            { padding: "30px", marginBottom: "76px" }
+        } maxWidth="sm">
+
+            <Item>
                 <Typography variant="h2" component="h1" gutterBottom> Add goal </Typography>
-	        <Grid container direction="column" rowGap={2} maxWidth="sm">
-	    <Autocomplete
-	        fullWidth
-	        onChange={(newValue) => setType(newValue)}
-	        id="category_options"
-	        options={category}
-	        renderInput={(params) => <TextField {...params} label="Category" />}
-	    />
-            <TextField 
-                label="Quantity"
-                variant="outlined"
-                onChange={(newValue) => setQuantity(newValue)}
-            />
-	    <DatePicker
-	        label="Start date"
-	        value={startDate}
-	        onChange={(newValue) => setStartDate(newValue)}
-	    />
-	    <DatePicker
-	        label="End date"
-	        value={endDate}
-	        onChange={(newValue) => setEndDate(newValue)}
-	    />
-	      <Button variant="contained" onClick={submitGoal} endIcon={<AddCircleIcon />}> Add goal</Button>
-	    </Grid>
-	    </Item>
-	  
-	</Container>
+                
+                <Grid container direction="column" rowGap={2} maxWidth="sm">
+                    <Autocomplete
+                        fullWidth
+                        onChange={(newValue) => setType(newValue)}
+                        id="category_options"
+                        options={category}
+                        renderInput={(params) => <TextField {...params} label="Category" />}
+                    />
+                    <TextField
+                        label="Quantity"
+                        variant="outlined"
+                        onChange={(newValue) => setQuantity(newValue)}
+                    />
+                    <DatePicker
+                        label="Start date"
+                        value={startDate}
+                        onChange={(newValue) => setStartDate(newValue)}
+                    />
+                    <DatePicker
+                        label="End date"
+                        value={endDate}
+                        onChange={(newValue) => setEndDate(newValue)}
+                    />
+                    <Button variant="contained" onClick={submitGoal} endIcon={<AddCircleIcon />}> Add goal</Button>
+                </Grid>
+            </Item>
+
+        </Container>
     );
 }
