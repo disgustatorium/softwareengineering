@@ -6,9 +6,10 @@ import { useNavigate } from 'react-router-dom';
 export let userToken = '';
 
 export default function Root() {
+  
   const navigate = useNavigate();
   const token = document.cookie;
-  userToken = token.replace("token=", ""); // Update the value of userToken
+  userToken = token.replace("token=", ""); 
 
   useEffect(() => {
     const checkUserToken = () => {

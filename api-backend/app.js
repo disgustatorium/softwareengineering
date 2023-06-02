@@ -60,6 +60,22 @@ const verifyToken = (req, res, next) => {
     }
     return next();
 };
+
+app.post('/verify-token', (req, res) => {
+    const token = req.body.token;
+    if (!token) {
+        return res.status(500).send("Empty Token");
+    }
+    try {
+        const decoded = jwt.verify(token, tokenKey);
+        req.userID = decoded.userID;
+        req.username = decoded.username;
+        return res.status(200).send("Valid Token");
+    } catch (err) {
+        return res.status(401).send("Invalid Token");
+    }
+});
+
   
 app.post('/send-email', bodyParser.json(), (req, res) => {
     const data = req.body;
@@ -489,6 +505,7 @@ app.post('/getUsers', verifyToken, (req, res) => {
         })
     })
 });
+
 
 app.post('/test', (req, res) => {
     let data = req.body;
