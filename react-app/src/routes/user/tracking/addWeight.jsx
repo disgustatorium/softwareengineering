@@ -21,14 +21,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function AddWeight() {
  
-  const navigate = useNavigate();
-
-  if (!userToken) {
-    navigate('/login'); 
-  } else {
-    console.log(userToken);
-  }
-
     const [formDate, setDate] = useState(dayjs());
     const [weight, setWeight] = useState();
     
@@ -40,7 +32,7 @@ export default function AddWeight() {
 	  alert("Please ensure all fields are filled.");
 	  return;
 	}
-        let requestJson = {"token":window.localStorage.getItem("token"),"data":formData};
+        let requestJson = {"token":userToken,"data":formData};
         fetch('http://localhost:3001/recordWeight',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../addSuccess";
             else console.log(data);

@@ -22,13 +22,6 @@ const Item = styled(Paper)(({ theme }) => ({
   }));
 
 export default function AddGoal() {
-    const navigate = useNavigate();
-
-    if (!userToken) {
-      navigate('/login'); 
-    } else {
-      console.log(userToken);
-    }
 
     const [type, setType] = useState();
     const [quantity, setQuantity] = useState();

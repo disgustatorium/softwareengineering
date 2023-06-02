@@ -29,7 +29,6 @@ import SignUp from './routes/signUp';
 import UserSettings from './routes/user/userSettings';
 import AddCustomFood from './routes/user/tracking/customFood';
 import SignUpSuccess from './routes/signUpSuccess';
-import LoginSuccess from './routes/loginSuccess';
 import CustomFood from './routes/user/tracking/customFood';
 import AddSuccess from './routes/user/tracking/addSuccess';
 import { useCookies } from 'react-cookie';
@@ -49,11 +48,6 @@ const router = createBrowserRouter([
   {
     path: '/login',
     element: <Login />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: '/loginSuccess',
-    element: <LoginSuccess />,
     errorElement: <ErrorPage />,
   },
   {

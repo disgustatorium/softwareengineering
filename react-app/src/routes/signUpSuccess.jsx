@@ -11,7 +11,7 @@ export default function SignUpSuccess() {
   return (
     <ThemeProvider theme={theme}>
       <div>
-      sign up successfull yay
+      sign up successful!
       </div>
     </ThemeProvider>
   );

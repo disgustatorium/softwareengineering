@@ -18,15 +18,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Tracking() {
 
-  const navigate = useNavigate();
-
-  if (!userToken) {
-    navigate('/login'); 
-  } else {
-    console.log(userToken);
-  }
-
-
     const [toggle, setToggle] = useState(true)
     
     return(

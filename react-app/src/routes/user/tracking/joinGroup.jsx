@@ -7,11 +7,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-
-
-
-
-
+import { userToken } from "../root";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -29,7 +25,7 @@ export default function JoinGroup() {
 	  alert("Please ensure all fields are filled.");
 	  return;
 	}        
-        let requestJson = {"token":window.localStorage.getItem("token"), "groupID":name.target.value};
+        let requestJson = {"token":userToken, "groupID":name.target.value};
         fetch('http://localhost:3001/joinGroup',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../groups";
             else setText(data.reason);

@@ -12,6 +12,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { userToken } from "./root";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,6 +22,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function UserSettings() {
+
   const [newEmail, setNewEmail] = useState();
   const [newFirstName, setNewFirstName] = useState();
   const [newLastName, setNewLastName] = useState();
@@ -31,7 +33,7 @@ export default function UserSettings() {
     var formData = { "newFirstName": newFirstName.target.textContent };
     var formData = { "newLastName": newLastName.target.textContent };
 
-    let requestJson = { "token": window.localStorage.getItem("token"), "data": formData };
+    let requestJson = { "token": userToken, "data": formData };
     fetch('http://localhost:3001/appSettings', { method: 'POST', body: JSON.stringify(requestJson), headers: { 'Content-type': 'application/json; charset=UTF-8' }, }).then((response) => response.json()).then((data) => {
       if (data.success) window.location.href = "../addSuccess";
       else console.log(data);
