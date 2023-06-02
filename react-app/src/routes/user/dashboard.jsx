@@ -16,6 +16,8 @@ import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
+import { useNavigate } from "react-router-dom"
+import { userToken } from './root'; // Path to the Root component file
 
 Chart.defaults.font.family = "'Roboto','Helvetica','Arial',sans-serif";
 Chart.defaults.backgroundColor = '#9BD0F5';
@@ -27,9 +29,8 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
+function WeightChart() {
 
-function WeightChart() {  
   const [chartData, setChartData] = useState([]);
   const [response, setResponse] = useState(false);
   
@@ -45,7 +46,9 @@ function WeightChart() {
   }
 
   useEffect(() => { 
+
     if(!response) {
+
       let requestJson = {"token":userToken};
       fetch('http://localhost:3001/getWeightRecords',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
         if (data.success) { 
@@ -89,7 +92,7 @@ function WeightChart() {
 function ExerciseChart() {  
   const [chartData, setChartData] = useState([]);
   const [response, setResponse] = useState(false);
-  
+
   var data = {
     datasets: [
       {
@@ -145,6 +148,8 @@ function ExerciseChart() {
 }
 
 function CaloriesChart() {  
+
+
   const [chartData, setChartData] = useState([]);
   const [response, setResponse] = useState(false);
   

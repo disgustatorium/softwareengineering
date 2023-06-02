@@ -12,6 +12,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
+import { useNavigate } from "react-router-dom"
+import { userToken } from '../root'; 
 
 const mealCategories = [{label:"Breakfast"},{label:"Lunch"},{label:"Dinner"},{label:"Snack"}]
 const foodTypes = [{label:"Big Mac"},{label:"Chicken Nuggets"},{label:"Large Fries"},{label:"Small Fries"}]
@@ -24,9 +26,17 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
-
 export default function AddFood() {
+
+    const navigate = useNavigate();
+
+    if (!userToken) {
+        navigate('/login'); 
+      } else {
+        console.log(userToken);
+      }
+  
+
     const [formDate, setDate] = useState(dayjs());
     const [category, setCategory] = useState();
     const [type, setType] = useState();

@@ -11,10 +11,8 @@ import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-
-
-
-
+import { useNavigate } from "react-router-dom"
+import { userToken } from '../root';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -24,9 +22,15 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
-
 export default function AddGoal() {
+    const navigate = useNavigate();
+
+    if (!userToken) {
+      navigate('/login'); 
+    } else {
+      console.log(userToken);
+    }
+
     const [type, setType] = useState();
     const [quantity, setQuantity] = useState();
     const [startDate, setStartDate] = useState(dayjs());

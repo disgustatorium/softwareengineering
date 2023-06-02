@@ -10,6 +10,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useNavigate } from "react-router-dom"
+import { userToken } from '../root'; 
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,6 +21,16 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Tracking() {
+
+  const navigate = useNavigate();
+
+  if (!userToken) {
+    navigate('/login'); 
+  } else {
+    console.log(userToken);
+  }
+
+
     const [toggle, setToggle] = useState(true)
     
     return(

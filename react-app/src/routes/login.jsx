@@ -1,20 +1,33 @@
 import theme from '../theme';
 import '../Landing.css';
 import { Link } from "react-router-dom";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom"
 import { Typography, Button, ThemeProvider, Box } from '@mui/material';
-
 
 export default function LogIn() {
 
   const navigate = useNavigate();
 
+  // checks if you have a valid token and redirects to your account if you do
+  const [userToken, setUserToken] = useState("");
+
+  useEffect(() => {
+    const token = document.cookie;
+    const cleanedToken = token.replace("token=", "").trim();
+    setUserToken(cleanedToken);
+  }, []);
+
+  useEffect(() => {
+    if (userToken !== "") {
+      navigate('/user/dashboard');
+    }
+  }, [userToken, navigate]);
+
   // post request to /register endpoint in order to register user 
   const loginUser = async (formData, onSuccess, onError) => {
     
     const backendUrl = 'http://localhost:3001';
-
     try {
       const response = await fetch(`${backendUrl}/login`, {
         method: "POST",
@@ -30,6 +43,7 @@ export default function LogIn() {
 
       if (data.success) {
         console.log('Login successful');
+        document.cookie = `token=${data.token}; path=/; SameSite=None; Secure`;
         onSuccess(); 
       } else {
         console.log(`Login failed: ${data.reason}`);
@@ -74,8 +88,8 @@ export default function LogIn() {
     }
 
     const onSuccess = () => {
-      // redirects user to sign up successful page 
-      navigate('/loginSuccess');
+      // redirects user to dashboard
+      navigate('/user/dashboard');
     };
 
     const onError = (reason) => {
@@ -86,6 +100,8 @@ export default function LogIn() {
     loginUser(formData, onSuccess, onError);
 
   };
+
+  
 
 
   return (

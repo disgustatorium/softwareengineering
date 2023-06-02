@@ -5,6 +5,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import AddGoalButton from '../../components/AddGoalButton';
 import React from "react";
+import { useNavigate } from "react-router-dom"
+import { userToken } from './root'; // Path to the Root component file
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -14,6 +17,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function GoalsListItem({ name, endDate, daysLeft }) {
+
+  const navigate = useNavigate();
+
+  if (!userToken) {
+    navigate('/login'); 
+  } else {
+    console.log(userToken);
+  }
+
   return (
     <Item elevation={2}>
       <Grid container xs={12}>
@@ -57,8 +69,6 @@ class GoalsList extends React.Component {
     )
   }
 }
-
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInVzZXJuYW1lIjoidGVzdC11c2VyIiwiaWF0IjoxNjg1NTYxOTI3LCJleHAiOjE2ODU1NjkxMjd9.MNhZZkOgYtsoeQz10naWhde_RTCaHfWFYSqPjwpeXx0";
 
 export default class Goals extends React.Component {
   state = {"goals":[]};

@@ -13,6 +13,8 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { TimeField } from '@mui/x-date-pickers/TimeField';
+import { useNavigate } from "react-router-dom"
+import { userToken } from '../root'; 
 
 const exerciseCategories = [{label:"Swimming"},{label:"Running"},{label:"Snorkelling"}]
 
@@ -24,6 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function ExerciseListItem({ category, date, duration }) {
+  
   return (
     <Item elevation={2}>
       <Grid container xs={12}>
@@ -67,9 +70,16 @@ function ExerciseList({ exercise }) {
   )
 }
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
-
 export default function AddExercise() {
+    const navigate = useNavigate();
+
+    if (!userToken) {
+      navigate('/login'); 
+    } else {
+      console.log(userToken);
+    }
+
+
     const [formDate, setDate] = useState(dayjs());
     const [type, setType] = useState();
     const [duration, setDuration] = useState(dayjs());

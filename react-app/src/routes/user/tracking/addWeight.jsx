@@ -10,6 +10,8 @@ import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import SpeedIcon from '@mui/icons-material/Speed';
+import { useNavigate } from "react-router-dom"
+import { userToken } from '../root';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -18,9 +20,16 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTQ2NzczLCJleHAiOjE2ODU1NTM5NzN9.H2MWihbVoE0-Y4SbQJREEOjNSVPlEstZqrbDbvZYDR4";
-
 export default function AddWeight() {
+ 
+  const navigate = useNavigate();
+
+  if (!userToken) {
+    navigate('/login'); 
+  } else {
+    console.log(userToken);
+  }
+
     const [formDate, setDate] = useState(dayjs());
     const [weight, setWeight] = useState();
     

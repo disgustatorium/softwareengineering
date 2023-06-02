@@ -7,6 +7,9 @@ import AddGoalButton from '../../components/AddGoalButton';
 import AddGroup from './tracking/addGroup';
 import AddGroupButton from '../../components/AddGroupButton';
 import React from "react";
+import { useCookies } from 'react-cookie';
+import { useNavigate } from "react-router-dom"
+import { userToken } from './root'; // Path to the Root component file
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,13 +18,13 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjIsInVzZXJuYW1lIjoibHlyYS1zY2FybGV0IiwiaWF0IjoxNjg1NTM5MzE2LCJleHAiOjE2ODU1NDY1MTZ9.2tdVBVduZsvXIPT2SMn2kBZi39wemKHCWrQw2FVmX50";
-
 class GroupListItem extends React.Component {
+
   state = {"members":""};
   owner = "";
   
   componentDidMount() {
+
     let owner = "";
     let requestJson =  {"token":userToken, "users":this.props.ownerID};
     fetch('http://localhost:3001/getUsers',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
@@ -36,6 +39,7 @@ class GroupListItem extends React.Component {
   
   render() {
     return (
+      
     <Item elevation={2}>
       <Grid container xs={12}>
         <Grid container xs={8}>
@@ -69,14 +73,17 @@ class GroupList extends React.Component {
 
 
 export default class Groups extends React.Component {
+
   state = {groups:[]};
   componentDidMount() {
+
     let requestJson = {"token":userToken};
     fetch('http://localhost:3001/getGroups',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.setState({"groups":data.data});
     }).catch((err) => {console.log(err.message);});
   };
   render() {
+    
     return (
       <Container sx={
         {

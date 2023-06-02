@@ -7,6 +7,8 @@ const cors = require('cors');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const { NONAME } = require('dns');
 
 require('dotenv').config(); 
 
@@ -15,13 +17,12 @@ const port = 3001;
 const tokenKey = "TotallyLegitKey";
 
 const corsOptions = {
-    origin: '*', 
+    origin: 'http://localhost:3000', 
     optionsSuccessStatus: 200,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    exposedHeaders: ['Authorization']
+    exposedHeaders: ['Authorization'],
+    credentials: true
 };
-
-app.use(cors(corsOptions));
 
 const pool  = mysql.createPool({
     connectionLimit : 10,
@@ -32,7 +33,6 @@ const pool  = mysql.createPool({
     			"DATETIME" ]
 });
 
-
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
@@ -41,6 +41,8 @@ const transporter = nodemailer.createTransport({
     },
   });
 
+app.use(cookieParser());
+app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
@@ -58,8 +60,7 @@ const verifyToken = (req, res, next) => {
     }
     return next();
 };
-
-
+  
 app.post('/send-email', bodyParser.json(), (req, res) => {
     const data = req.body;
 
@@ -139,8 +140,10 @@ app.post('/login', (req, res) => {
             if (!err) {
             	if (rows.length == 1) {
             	    if (rows[0].password == data.password) {
+
             	        let token = jwt.sign({userID: rows[0].userID, username: data.username}, tokenKey, {expiresIn: "2h"});
-            	    	res.send({"success":true, "token":token});
+                        res.send({"success":true, "token":token});
+
             	    } else {
             	    	res.send({"success":false, "reason":"Invalid username and password combination."}) 
             	    }
@@ -155,6 +158,7 @@ app.post('/login', (req, res) => {
     })
 });
 
+  
 
 app.post('/recordFood', verifyToken, (req, res) => {
     let data = req.body;
