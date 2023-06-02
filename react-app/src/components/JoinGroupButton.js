@@ -3,8 +3,8 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-export default function AddGroupButton() {
+export default function JoinGroupButton() {
     return (
-        <Button variant="contained" component={Link} to="addGroup" endIcon={<AddCircleIcon />}> Create group</Button>
+        <Button variant="contained" component={Link} to="joinGroup" endIcon={<AddCircleIcon />}>Join group</Button>
     )
 }

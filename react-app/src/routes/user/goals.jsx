@@ -4,10 +4,12 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import AddGoalButton from '../../components/AddGoalButton';
+import GoalsSuggetions from '../../components/suggestionDisplay';
 import React from "react";
 import { useNavigate } from "react-router-dom"
 import { userToken } from './root'; // Path to the Root component file
 
+import { useState } from 'react';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -71,14 +73,22 @@ class GoalsList extends React.Component {
 }
 
 export default class Goals extends React.Component {
-  state = {"goals":[]};
+  state = { "goals": [], "suggestions": [] };
+  
   componentDidMount() {
-    let requestJson = {"token":userToken};
-    fetch('http://localhost:3001/getGoals',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
-     if (data.success) this.setState({"goals":data.data});
-    }).catch((err) => {console.log(err.message);});
+    let requestJson = { "token": userToken };
+    fetch('http://localhost:3001/getGoals', { method: 'POST', body: JSON.stringify(requestJson), headers: { 'Content-type': 'application/json; charset=UTF-8' }, }).then((response) => response.json()).then((data) => {
+      if (data.success) this.setState({ "goals": data.data });
+    }).catch((err) => { console.log(err.message); });
+
+    let requestJson2 = { "token": userToken };
+    fetch('http://localhost:3001/goalSuggestions', { method: 'POST', body: JSON.stringify(requestJson2), headers: { 'Content-type': 'application/json; charset=UTF-8' }, }).then((response) => response.json()).then((data) => {
+      if (data.success) this.setState({ "suggestions": data.data });
+    }).catch((err) => { console.log(err.message); });
   };
   render() {
+    // let [suggestions, setSuggetsions] = useState(["sugg 1", "sugg 2 ", "sugg 3"]);
+    // let suggestions = ["sugg 1", "sugg 2 ", "sugg 3"];
     return (
       <Container sx={
         {
@@ -86,11 +96,12 @@ export default class Goals extends React.Component {
         }
       } maxWidth="sm">
         <Item>
-        <Typography variant="h2" component="h1" gutterBottom> Goals </Typography>
-        <Grid container direction="column" rowGap={2} maxWidth="sm">
-        <AddGoalButton></AddGoalButton>
-        <GoalsList goals={this.state.goals}/>
-        </Grid>
+          <Typography variant="h2" component="h1" gutterBottom> Goals </Typography>
+          <Grid container direction="column" rowGap={2} maxWidth="sm">
+            <AddGoalButton></AddGoalButton>
+            <GoalsSuggetions suggestions={this.state.suggestions} />
+            <GoalsList goals={this.state.goals} />
+          </Grid>
         </Item>
       </Container>
     );

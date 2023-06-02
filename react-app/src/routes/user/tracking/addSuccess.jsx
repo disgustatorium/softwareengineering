@@ -1,10 +1,6 @@
 import React, {useState} from 'react'
 import Container from '@mui/material/Container';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom'
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
-import SpeedIcon from '@mui/icons-material/Speed';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -38,6 +34,7 @@ export default function Tracking() {
         { padding: "30px" }
       } maxWidth="sm">
         <Item>
+
           <Container sx={
             {
               padding: "15px"
@@ -53,7 +50,10 @@ export default function Tracking() {
             }
           } maxWidth="sm">
           </Container>
+          <Grid container direction="column" rowGap={2} maxWidth="sm">
           <Button variant="contained" onClick={()=>{window.history.back()}} endIcon={<AddCircleIcon />}> Add another </Button>
+          <Button variant="contained" onClick={()=>{window.history.go(-2)}} endIcon={<AddCircleIcon />}> Return to tracking </Button>
+          </Grid>
           <Container sx={
             {
               padding: "15px"

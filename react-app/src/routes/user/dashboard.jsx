@@ -1,19 +1,10 @@
 import { useState, useEffect } from 'react';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Unstable_Grid2';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
-import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import ProfileCircleButton from "../../components/ProfileCircleButton";
 import Chart from "chart.js/auto";
-import { CategoryScale } from "chart.js";
 import { Line, Bar } from "react-chartjs-2";
 import 'chartjs-adapter-dayjs-4/dist/chartjs-adapter-dayjs-4.esm';
 import { useNavigate } from "react-router-dom"
@@ -29,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function WeightChart() {
+function WeightChart() {  
 
   const [chartData, setChartData] = useState([]);
   const [response, setResponse] = useState(false);

@@ -4,11 +4,9 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Unstable_Grid2';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { DatePicker, TimeClock, TimePicker } from '@mui/x-date-pickers';
+import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -94,7 +92,7 @@ export default function AddExercise() {
 	  console.log(formData);
 	  return;
 	}
-        let requestJson = {"token":userToken,"data":formData};
+      let requestJson = {"token":window.localStorage.getItem("token"),"data":formData};
         fetch('http://localhost:3001/recordExercise',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../addSuccess";
             else console.log(data);

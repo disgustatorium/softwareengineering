@@ -5,7 +5,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
@@ -49,7 +48,7 @@ export default function CustomFood() {
 	  alert("Please ensure all fields are filled.");
 	  return;
 	}
-        let requestJson = {"token":userToken,"data":formData};
+        let requestJson = {"token":window.localStorage.getItem("token"),"data":formData};
         fetch('http://localhost:3001/recordFood',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = ".../addSuccess";
             else console.log(data);

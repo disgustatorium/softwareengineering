@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import AddGoalButton from '../../components/AddGoalButton';
 import AddGroup from './tracking/addGroup';
 import AddGroupButton from '../../components/AddGroupButton';
+import JoinGroupButton from '../../components/JoinGroupButton';
 import React from "react";
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom"
@@ -26,7 +27,7 @@ class GroupListItem extends React.Component {
   componentDidMount() {
 
     let owner = "";
-    let requestJson =  {"token":userToken, "users":this.props.ownerID};
+    let requestJson = {"token":userToken, "users":this.props.ownerID};
     fetch('http://localhost:3001/getUsers',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
      if (data.success) this.owner = data.data;
     }).catch((err) => {console.log(err.message);});
@@ -42,7 +43,7 @@ class GroupListItem extends React.Component {
       
     <Item elevation={2}>
       <Grid container xs={12}>
-        <Grid container xs={8}>
+        <Grid container xs={12}>
           <Grid xs={12}>
             <Typography variant='h5'> Group name: {this.props.groupName} </Typography>
           </Grid>
@@ -52,6 +53,9 @@ class GroupListItem extends React.Component {
         </Grid>
         <Grid xs={12}>
             <Typography variant='h6'> Members: {this.state.members} </Typography>
+          </Grid>
+        <Grid xs={12}>
+            <Typography variant='h6'> Group Join ID: {this.props.groupID} </Typography>
           </Grid>
         </Grid>
     </ Item>
@@ -64,7 +68,7 @@ class GroupList extends React.Component {
     return (
       <Grid container direction="column" rowGap={2} maxWidth="sm">
         {this.props.groups.map(group => {
-          return <GroupListItem key={group.groupID} groupName={group.groupName} ownerID={group.ownerID} memberIDs={group.memberIDs} />
+          return <GroupListItem key={group.groupID} groupID={group.groupID} groupName={group.groupName} ownerID={group.ownerID} memberIDs={group.memberIDs} />
         })}
       </Grid>
     )
@@ -79,7 +83,7 @@ export default class Groups extends React.Component {
 
     let requestJson = {"token":userToken};
     fetch('http://localhost:3001/getGroups',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
-     if (data.success) this.setState({"groups":data.data});
+     if (data.success) this.setState({"groups":data.data}); console.log(data);
     }).catch((err) => {console.log(err.message);});
   };
   render() {
@@ -93,7 +97,7 @@ export default class Groups extends React.Component {
         <Item>
         <Typography variant="h2" component="h1" gutterBottom> Your groups </Typography>
         <Grid container direction="column" rowGap={2} maxWidth="sm">
-        <AddGroupButton></AddGroupButton>
+        <AddGroupButton /><JoinGroupButton />
         {/* 
         group search bar */}
         <GroupList groups={this.state.groups} />

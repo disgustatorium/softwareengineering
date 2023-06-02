@@ -54,7 +54,7 @@ export default function AddFood() {
 	  return;
 	}
 	formData.foodType = typeIDs[formData.foodType];
-        let requestJson = {"token":userToken,"data":formData};
+        let requestJson = {"token":window.localStorage.getItem("token"),"data":formData};
         fetch('http://localhost:3001/recordFood',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../addSuccess";
             else console.log(data);
@@ -63,8 +63,6 @@ export default function AddFood() {
     
     
     return (
-      
-    
 
     <Container sx={
         { padding: "30px" }

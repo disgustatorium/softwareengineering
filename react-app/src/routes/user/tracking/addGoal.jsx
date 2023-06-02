@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
@@ -6,7 +6,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Unstable_Grid2';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
@@ -64,46 +63,47 @@ export default function AddGoal() {
           alert("Please ensure start date and/or end date are not in the past.");
           return;
         }
-        let requestJson = {"token":userToken,"data":formData};
+        let requestJson = {"token": userToken,"data":formData};
         fetch('http://localhost:3001/registerGoal',{method:'POST',body:JSON.stringify(requestJson),headers:{'Content-type':'application/json; charset=UTF-8'},}).then((response) => response.json()).then((data) => {
             if (data.success) window.location.href = "../addSuccess";
         }).catch((err) => {console.log(err.message);});
     }
 
     return (
-	<Container sx={
-	    { padding: "30px", marginBottom: "76px" }
-	} maxWidth="sm">
-	    
-	    <Typography variant="h2" component="h1" gutterBottom> Add goal </Typography>
-	        <Item>
-	        <Grid container direction="column" rowGap={2} maxWidth="sm">
-	    <Autocomplete
-	        fullWidth
-	        onChange={(newValue) => setType(newValue)}
-	        id="category_options"
-	        options={category}
-	        renderInput={(params) => <TextField {...params} label="Category" />}
-	    />
-            <TextField 
-                label="Quantity"
-                variant="outlined"
-                onChange={(newValue) => setQuantity(newValue)}
-            />
-	    <DatePicker
-	        label="Start date"
-	        value={startDate}
-	        onChange={(newValue) => setStartDate(newValue)}
-	    />
-	    <DatePicker
-	        label="End date"
-	        value={endDate}
-	        onChange={(newValue) => setEndDate(newValue)}
-	    />
-	      <Button variant="contained" onClick={submitGoal} endIcon={<AddCircleIcon />}> Add </Button>
-	    </Grid>
-	    </Item>
-	  
-	</Container>
+        <Container sx={
+            { padding: "30px", marginBottom: "76px" }
+        } maxWidth="sm">
+
+            <Item>
+                <Typography variant="h2" component="h1" gutterBottom> Add goal </Typography>
+                
+                <Grid container direction="column" rowGap={2} maxWidth="sm">
+                    <Autocomplete
+                        fullWidth
+                        onChange={(newValue) => setType(newValue)}
+                        id="category_options"
+                        options={category}
+                        renderInput={(params) => <TextField {...params} label="Category" />}
+                    />
+                    <TextField
+                        label="Quantity"
+                        variant="outlined"
+                        onChange={(newValue) => setQuantity(newValue)}
+                    />
+                    <DatePicker
+                        label="Start date"
+                        value={startDate}
+                        onChange={(newValue) => setStartDate(newValue)}
+                    />
+                    <DatePicker
+                        label="End date"
+                        value={endDate}
+                        onChange={(newValue) => setEndDate(newValue)}
+                    />
+                    <Button variant="contained" onClick={submitGoal} endIcon={<AddCircleIcon />}> Add goal</Button>
+                </Grid>
+            </Item>
+
+        </Container>
     );
 }
