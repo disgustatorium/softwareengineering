@@ -19,7 +19,7 @@ const exerciseCategories = [{label:"Swimming"},{label:"Running"},{label:"Snorkel
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
-  padding: theme.spacing(2),
+  padding: theme.spacing(4),
   color: theme.palette.text.secondary,
 }));
 
@@ -99,9 +99,10 @@ export default function AddExercise() {
         { padding: "30px" }
       } maxWidth="sm">
        
-        <Typography variant="h2" component="h1" gutterBottom>Log exercise</Typography>
+        
             <Item>
             <Grid container direction="column" rowGap={2} maxWidth="sm">
+            <Typography variant="h2" component="h1" gutterBottom>Log exercise</Typography>
         <Autocomplete
             fullWidth
             id="category_options"
